@@ -1,0 +1,39 @@
+# Build outputs
+dist/
+build/
+.next/
+out/
+
+# Dependencies
+node_modules/
+
+# Generated files
+*.generated.ts
+*.generated.js
+
+# Environment files
+.env*
+
+# Logs
+*.log
+
+# Cache directories
+.cache/
+.parcel-cache/
+
+# IDE files
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Git
+.git/
+
+# Coverage reports
+coverage/
+
+# Documentation
+docs/

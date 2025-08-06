@@ -1,0 +1,1028 @@
+{
+  "master": {
+    "tasks": [
+      {
+        "id": 1,
+        "title": "Setup Project Repository with React, TypeScript and Vite",
+        "description": "Initialize the project repository with the required tech stack including React 18+ with TypeScript, Vite 4+ as build tool, and configure essential development tools.",
+        "details": "1. Create a new Vite project with React and TypeScript template: `npm create vite@latest ncuscript-automator -- --template react-ts`\n2. Install core dependencies:\n```bash\nnpm install react@18 react-dom@18 react-router-dom@6\n```\n3. Configure TypeScript with strict mode enabled in `tsconfig.json`\n4. Set up ESLint with Airbnb style guide and Prettier:\n```bash\nnpm install -D eslint eslint-config-airbnb eslint-plugin-import eslint-plugin-jsx-a11y eslint-plugin-react eslint-plugin-react-hooks @typescript-eslint/eslint-plugin @typescript-eslint/parser prettier eslint-config-prettier eslint-plugin-prettier\n```\n5. Create `.eslintrc.js` and `.prettierrc` configuration files\n6. Set up Git repository with `.gitignore` file\n7. Configure Conventional Commits linting with commitlint and husky\n8. Create environment configuration files for development, staging, and production (`.env.development`, `.env.staging`, `.env.production`)",
+        "testStrategy": "1. Verify that the project builds successfully with `npm run build`\n2. Ensure that ESLint and Prettier are working correctly with `npm run lint`\n3. Confirm TypeScript compilation works without errors\n4. Test that the development server starts correctly with `npm run dev`\n5. Verify that Git hooks are working properly for commit message validation",
+        "priority": "high",
+        "dependencies": [],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Initialize Vite Project with React and TypeScript",
+            "description": "Create a new Vite project with React and TypeScript template and install core dependencies",
+            "dependencies": [],
+            "details": "1. Create a new Vite project using the command: `npm create vite@latest ncuscript-automator -- --template react-ts`\n2. Navigate to the project directory: `cd ncuscript-automator`\n3. Install core dependencies: `npm install react@18 react-dom@18 react-router-dom@6`\n4. Verify the project structure has been created correctly\n5. Run the development server to test the setup: `npm run dev`",
+            "status": "done",
+            "testStrategy": "1. Verify that the project builds successfully with `npm run build`\n2. Confirm that the development server starts correctly with `npm run dev`\n3. Check that the React application renders without errors\n4. Verify that TypeScript is properly configured\n5. Test that routing works with a simple route setup"
+          },
+          {
+            "id": 2,
+            "title": "Configure TypeScript with Strict Mode",
+            "description": "Set up TypeScript configuration with strict mode enabled for type safety",
+            "dependencies": [],
+            "details": "1. Open the `tsconfig.json` file in the project root\n2. Enable strict mode by setting `\"strict\": true`\n3. Configure additional TypeScript options as needed:\n   - Set `\"esModuleInterop\": true`\n   - Set `\"skipLibCheck\": true`\n   - Set `\"forceConsistentCasingInFileNames\": true`\n4. Add any project-specific path aliases if needed\n5. Save the configuration file",
+            "status": "done",
+            "testStrategy": "1. Run TypeScript compiler to check for errors: `npx tsc --noEmit`\n2. Verify that strict type checking is enforced by intentionally creating a type error\n3. Test that imports work correctly with the configured paths\n4. Ensure that the build process completes without TypeScript errors"
+          },
+          {
+            "id": 3,
+            "title": "Set up ESLint and Prettier",
+            "description": "Configure ESLint with Airbnb style guide and Prettier for code formatting",
+            "dependencies": [],
+            "details": "1. Install ESLint, Prettier and related dependencies:\n   ```bash\n   npm install -D eslint eslint-config-airbnb eslint-plugin-import eslint-plugin-jsx-a11y eslint-plugin-react eslint-plugin-react-hooks @typescript-eslint/eslint-plugin @typescript-eslint/parser prettier eslint-config-prettier eslint-plugin-prettier\n   ```\n2. Create `.eslintrc.js` configuration file with Airbnb rules and TypeScript support\n3. Create `.prettierrc` with project formatting rules\n4. Add lint scripts to package.json:\n   ```json\n   \"lint\": \"eslint src --ext .ts,.tsx\",\n   \"lint:fix\": \"eslint src --ext .ts,.tsx --fix\",\n   \"format\": \"prettier --write 'src/**/*.{ts,tsx,css,md}'\"\n   ```",
+            "status": "done",
+            "testStrategy": "1. Run `npm run lint` to verify ESLint is working correctly\n2. Test that `npm run lint:fix` automatically fixes linting issues\n3. Verify that `npm run format` correctly formats files with Prettier\n4. Check that ESLint and Prettier configurations don't conflict\n5. Verify that the rules are enforced in the IDE with appropriate extensions"
+          },
+          {
+            "id": 4,
+            "title": "Set up Git Repository with Version Control",
+            "description": "Initialize Git repository with appropriate .gitignore file and commit hooks",
+            "dependencies": [],
+            "details": "1. Initialize Git repository: `git init`\n2. Create a comprehensive `.gitignore` file including:\n   - node_modules\n   - dist\n   - .env files\n   - IDE-specific files\n   - build artifacts\n3. Install commitlint and husky for conventional commits:\n   ```bash\n   npm install -D @commitlint/cli @commitlint/config-conventional husky\n   ```\n4. Set up husky hooks: `npx husky install`\n5. Add commit-msg hook: `npx husky add .husky/commit-msg 'npx --no -- commitlint --edit $1'`\n6. Create commitlint.config.js file with conventional commit rules",
+            "status": "pending",
+            "testStrategy": "1. Verify that Git is tracking the correct files\n2. Test that .gitignore is working by ensuring ignored files aren't tracked\n3. Make a test commit to verify that commit hooks are working\n4. Test that non-conventional commits are rejected\n5. Verify that husky is properly installed and running"
+          },
+          {
+            "id": 5,
+            "title": "Configure Environment Variables",
+            "description": "Create environment configuration files for different deployment environments",
+            "dependencies": [],
+            "details": "1. Create the following environment files in the project root:\n   - `.env.development`\n   - `.env.staging`\n   - `.env.production`\n   - `.env.example` (template with keys but no values)\n2. Add environment variables with appropriate values for each environment\n3. Configure Vite to use environment variables by updating `vite.config.ts`\n4. Create a type definition file for environment variables to ensure type safety\n5. Add environment files to .gitignore except for .env.example\n6. Document the environment variables in the project README",
+            "status": "done",
+            "testStrategy": "1. Verify that environment variables are correctly loaded in different environments\n2. Test that the application can access environment variables through import.meta.env\n3. Ensure that sensitive environment variables are not committed to the repository\n4. Test building the application with different environment configurations\n5. Verify that TypeScript recognizes the environment variable types"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "title": "Implement Core State Management with Redux Toolkit and RTK Query",
+        "description": "Set up Redux Toolkit for global state management and RTK Query for API data fetching and caching, following the state management structure defined in the PRD.",
+        "details": "1. Install Redux Toolkit and RTK Query:\n```bash\nnpm install @reduxjs/toolkit react-redux\n```\n2. Create store configuration in `src/store/index.ts`:\n```typescript\nimport { configureStore } from '@reduxjs/toolkit';\nimport { setupListeners } from '@reduxjs/toolkit/query';\nimport { api } from '../services/api';\nimport authReducer from './slices/authSlice';\nimport scriptsReducer from './slices/scriptsSlice';\nimport templatesReducer from './slices/templatesSlice';\nimport uiReducer from './slices/uiSlice';\nimport editorReducer from './slices/editorSlice';\n\nexport const store = configureStore({\n  reducer: {\n    auth: authReducer,\n    scripts: scriptsReducer,\n    templates: templatesReducer,\n    ui: uiReducer,\n    editor: editorReducer,\n    [api.reducerPath]: api.reducer,\n  },\n  middleware: (getDefaultMiddleware) =>\n    getDefaultMiddleware().concat(api.middleware),\n});\n\nsetupListeners(store.dispatch);\n\nexport type RootState = ReturnType<typeof store.getState>;\nexport type AppDispatch = typeof store.dispatch;\n```\n3. Create API service with RTK Query in `src/services/api.ts`\n4. Implement Redux slices for each domain (auth, scripts, templates, ui, editor)\n5. Create custom hooks for accessing store state and dispatch\n6. Set up API endpoints for scripts, templates, and tests\n7. Implement error handling middleware for API requests",
+        "testStrategy": "1. Write unit tests for Redux slices using Jest and React Testing Library\n2. Test API integration with mock server (MSW)\n3. Verify that state updates correctly when actions are dispatched\n4. Test error handling middleware with simulated network failures\n5. Ensure RTK Query caching works as expected",
+        "priority": "high",
+        "dependencies": [
+          1
+        ],
+        "status": "done",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Create API Service with RTK Query",
+            "description": "Implement the base API service using RTK Query to handle data fetching, caching, and mutations.",
+            "dependencies": [],
+            "details": "Create the API service in `src/services/api.ts` with the following structure:\n```typescript\nimport { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';\nimport { RootState } from '../store';\n\nexport const api = createApi({\n  reducerPath: 'api',\n  baseQuery: fetchBaseQuery({\n    baseUrl: process.env.REACT_APP_API_URL || '/api',\n    prepareHeaders: (headers, { getState }) => {\n      const token = (getState() as RootState).auth.token;\n      if (token) {\n        headers.set('authorization', `Bearer ${token}`);\n      }\n      return headers;\n    },\n  }),\n  tagTypes: ['Scripts', 'Templates', 'Tests'],\n  endpoints: () => ({}),\n});\n```",
+            "status": "done",
+            "testStrategy": "1. Test the API service configuration with mock requests\n2. Verify authentication token is correctly added to headers\n3. Test error handling with simulated network failures\n4. Ensure base URL is correctly configured from environment variables"
+          },
+          {
+            "id": 2,
+            "title": "Implement Redux Slices",
+            "description": "Create Redux slices for each domain area (auth, scripts, templates, ui, editor) with appropriate state, reducers, and actions.",
+            "dependencies": [
+              "2.1"
+            ],
+            "details": "Create the following slices in the `src/store/slices` directory:\n\n1. `authSlice.ts` - Handle user authentication state\n2. `scriptsSlice.ts` - Manage script data and operations\n3. `templatesSlice.ts` - Manage template data and operations\n4. `uiSlice.ts` - Handle UI state like modals, notifications\n5. `editorSlice.ts` - Manage editor state including tabs and content\n\nEach slice should follow this pattern:\n```typescript\nimport { createSlice, PayloadAction } from '@reduxjs/toolkit';\n\ninterface SliceState {\n  // State properties\n}\n\nconst initialState: SliceState = {\n  // Initial values\n};\n\nexport const sliceName = createSlice({\n  name: 'sliceName',\n  initialState,\n  reducers: {\n    // Actions and reducers\n  },\n});\n\nexport const { actions } = sliceName.actions;\nexport default sliceName.reducer;\n```",
+            "status": "done",
+            "testStrategy": "1. Write unit tests for each slice using Jest\n2. Test that each reducer correctly updates state\n3. Verify initial state is set correctly\n4. Test action creators return expected action objects\n5. Test complex state transformations in reducers"
+          },
+          {
+            "id": 3,
+            "title": "Set Up API Endpoints",
+            "description": "Implement API endpoints for scripts, templates, and tests using RTK Query's injectEndpoints pattern.",
+            "dependencies": [
+              "2.1"
+            ],
+            "details": "Create endpoint files in `src/services` directory:\n\n1. `src/services/scriptsApi.ts`:\n```typescript\nimport { api } from './api';\nimport { Script } from '../types';\n\nexport const scriptsApi = api.injectEndpoints({\n  endpoints: (builder) => ({\n    getScripts: builder.query<Script[], void>({\n      query: () => '/scripts',\n      providesTags: ['Scripts'],\n    }),\n    getScriptById: builder.query<Script, string>({\n      query: (id) => `/scripts/${id}`,\n      providesTags: (result, error, id) => [{ type: 'Scripts', id }],\n    }),\n    createScript: builder.mutation<Script, Partial<Script>>({\n      query: (script) => ({\n        url: '/scripts',\n        method: 'POST',\n        body: script,\n      }),\n      invalidatesTags: ['Scripts'],\n    }),\n    // Additional endpoints for update, delete, etc.\n  }),\n});\n\nexport const { useGetScriptsQuery, useGetScriptByIdQuery, useCreateScriptMutation } = scriptsApi;\n```\n\nImplement similar files for templates and tests endpoints.",
+            "status": "done",
+            "testStrategy": "1. Test API endpoints with mock server responses using MSW\n2. Verify that cache invalidation works correctly\n3. Test error handling for different HTTP status codes\n4. Verify that loading states are correctly managed\n5. Test optimistic updates for mutations"
+          },
+          {
+            "id": 4,
+            "title": "Create Custom Redux Hooks",
+            "description": "Implement typed custom hooks for accessing Redux store state and dispatch functions to simplify component integration.",
+            "dependencies": [
+              "2.2"
+            ],
+            "details": "Create `src/hooks/redux.ts` with the following hooks:\n\n```typescript\nimport { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';\nimport type { RootState, AppDispatch } from '../store';\n\n// Use throughout your app instead of plain `useDispatch` and `useSelector`\nexport const useAppDispatch = () => useDispatch<AppDispatch>();\nexport const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;\n\n// Create domain-specific selector hooks\nexport const useAuth = () => useAppSelector((state) => state.auth);\nexport const useScripts = () => useAppSelector((state) => state.scripts);\nexport const useTemplates = () => useAppSelector((state) => state.templates);\nexport const useUI = () => useAppSelector((state) => state.ui);\nexport const useEditor = () => useAppSelector((state) => state.editor);\n```",
+            "status": "done",
+            "testStrategy": "1. Test custom hooks in isolation using React Testing Library\n2. Verify that hooks correctly access store state\n3. Test that dispatch functions work as expected\n4. Verify type safety of the hooks\n5. Test performance with React DevTools Profiler"
+          },
+          {
+            "id": 5,
+            "title": "Implement Error Handling Middleware",
+            "description": "Create middleware for handling API errors, including network failures, authentication issues, and server errors with appropriate UI feedback.",
+            "dependencies": [
+              "2.1",
+              "2.2",
+              "2.3"
+            ],
+            "details": "Create `src/middleware/errorMiddleware.ts`:\n\n```typescript\nimport { isRejectedWithValue, Middleware } from '@reduxjs/toolkit';\nimport { toast } from '../components/ui/use-toast';\n\nexport const errorMiddleware: Middleware = () => (next) => (action) => {\n  // RTK Query uses `createAsyncThunk` from redux-toolkit under the hood, so we're able to utilize these matchers\n  if (isRejectedWithValue(action)) {\n    const { payload, error } = action;\n    \n    // Handle specific error status codes\n    if (payload?.status === 401) {\n      toast({\n        title: 'Authentication Error',\n        description: 'Your session has expired. Please log in again.',\n        variant: 'destructive',\n      });\n      // Dispatch logout action or redirect to login\n    } else if (payload?.status === 403) {\n      toast({\n        title: 'Permission Denied',\n        description: 'You don\\'t have permission to perform this action.',\n        variant: 'destructive',\n      });\n    } else {\n      // Generic error handling\n      toast({\n        title: 'Error',\n        description: payload?.data?.message || error?.message || 'An unexpected error occurred',\n        variant: 'destructive',\n      });\n    }\n  }\n\n  return next(action);\n};\n\n// Add to store configuration:\n// middleware: (getDefaultMiddleware) =>\n//   getDefaultMiddleware().concat(api.middleware, errorMiddleware),\n```",
+            "status": "done",
+            "testStrategy": "1. Test middleware with different error scenarios\n2. Verify that appropriate toast notifications are displayed\n3. Test authentication error handling and redirection\n4. Verify that network errors are handled gracefully\n5. Test integration with the Redux store"
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "title": "Implement Routing Structure with React Router",
+        "description": "Set up the application routing structure using React Router v6 as specified in the PRD, including private routes with authentication checks.",
+        "details": "1. Install React Router:\n```bash\nnpm install react-router-dom@6\n```\n2. Create a router configuration in `src/router/index.tsx`:\n```typescript\nimport { createBrowserRouter, RouterProvider } from 'react-router-dom';\nimport { useSelector } from 'react-redux';\nimport { RootState } from '../store';\nimport Login from '../pages/Login';\nimport Dashboard from '../pages/Dashboard';\nimport ScriptsList from '../pages/ScriptsList';\nimport ScriptDetail from '../pages/ScriptDetail';\nimport TemplatesList from '../pages/TemplatesList';\nimport TemplateDetail from '../pages/TemplateDetail';\nimport Settings from '../pages/Settings';\nimport PrivateRoute from './PrivateRoute';\n\nconst router = createBrowserRouter([\n  { path: '/login', element: <Login /> },\n  { \n    path: '/', \n    element: <PrivateRoute><Dashboard /></PrivateRoute> \n  },\n  { \n    path: '/scripts', \n    element: <PrivateRoute><ScriptsList /></PrivateRoute> \n  },\n  { \n    path: '/scripts/:id', \n    element: <PrivateRoute><ScriptDetail /></PrivateRoute> \n  },\n  { \n    path: '/templates', \n    element: <PrivateRoute><TemplatesList /></PrivateRoute> \n  },\n  { \n    path: '/templates/:id', \n    element: <PrivateRoute><TemplateDetail /></PrivateRoute> \n  },\n  { \n    path: '/settings', \n    element: <PrivateRoute><Settings /></PrivateRoute> \n  },\n]);\n\nexport default function AppRouter() {\n  return <RouterProvider router={router} />;\n}\n```\n3. Implement `PrivateRoute` component that checks authentication status\n4. Create placeholder page components for each route\n5. Implement navigation components (Navbar, Sidebar)\n6. Add route transitions using Framer Motion",
+        "testStrategy": "1. Test that unauthenticated users are redirected to login page\n2. Verify that authenticated users can access protected routes\n3. Test navigation between routes\n4. Ensure route parameters are correctly passed to components\n5. Test that route transitions work smoothly",
+        "priority": "high",
+        "dependencies": [
+          1,
+          2
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Implement PrivateRoute Component",
+            "description": "Create a PrivateRoute component that checks authentication status and redirects unauthenticated users to the login page.",
+            "dependencies": [],
+            "details": "Create src/router/PrivateRoute.tsx that uses Redux to check auth state and redirects accordingly. The component should wrap protected routes and verify the user's authentication token before rendering the child component.",
+            "status": "pending",
+            "testStrategy": "Test redirection to login page for unauthenticated users. Verify authenticated users can access protected content. Test token expiration handling."
+          },
+          {
+            "id": 2,
+            "title": "Create Placeholder Page Components",
+            "description": "Implement basic placeholder components for each route defined in the router configuration.",
+            "dependencies": [],
+            "details": "Create minimal functional components for Login, Dashboard, ScriptsList, ScriptDetail, TemplatesList, TemplateDetail, and Settings pages in the src/pages directory. Each component should have a basic layout and display its name.",
+            "status": "pending",
+            "testStrategy": "Verify each component renders correctly. Test that components display appropriate loading states. Ensure components handle route parameters correctly."
+          },
+          {
+            "id": 3,
+            "title": "Implement Navigation Components",
+            "description": "Create Navbar and Sidebar components for application navigation with active route highlighting.",
+            "dependencies": [
+              "3.1",
+              "3.2"
+            ],
+            "details": "Develop a responsive Navbar component with app logo, user profile dropdown, and notification icon. Create a collapsible Sidebar with navigation links to all main routes. Both components should highlight the active route.",
+            "status": "pending",
+            "testStrategy": "Test responsive behavior on different screen sizes. Verify active route highlighting works correctly. Test navigation link functionality. Ensure keyboard navigation works properly."
+          },
+          {
+            "id": 4,
+            "title": "Add Route Transitions with Framer Motion",
+            "description": "Implement smooth transitions between routes using Framer Motion animation library.",
+            "dependencies": [
+              "3.1",
+              "3.2",
+              "3.3"
+            ],
+            "details": "Install Framer Motion and create a PageTransition component that wraps each page. Implement fade, slide, or other appropriate animations for route changes. Ensure transitions are accessible and don't cause layout shifts.",
+            "status": "pending",
+            "testStrategy": "Test animations on route changes. Verify animations work consistently across browsers. Test animation performance. Ensure animations don't interfere with user interaction."
+          },
+          {
+            "id": 5,
+            "title": "Implement Error Boundary and 404 Page",
+            "description": "Create error handling for routes, including a 404 page for undefined routes and error boundaries for component crashes.",
+            "dependencies": [
+              "3.1",
+              "3.2"
+            ],
+            "details": "Add a catch-all route for 404 errors. Implement React Error Boundary components to gracefully handle runtime errors in route components. Create a user-friendly error page that allows users to report issues or navigate back.",
+            "status": "pending",
+            "testStrategy": "Test navigation to non-existent routes. Verify error boundaries catch component errors. Test error reporting functionality. Ensure users can recover from errors without refreshing the page."
+          }
+        ]
+      },
+      {
+        "id": 4,
+        "title": "Implement UI Component Library with shadcn/ui and Tailwind CSS",
+        "description": "Set up the UI component library using shadcn/ui (based on Radix UI) and Tailwind CSS, implementing the design system specified in the PRD.",
+        "details": "1. Install Tailwind CSS and configure it:\n```bash\nnpm install -D tailwindcss postcss autoprefixer\nnpx tailwindcss init -p\n```\n2. Configure Tailwind with the design system colors and typography:\n```javascript\n// tailwind.config.js\nmodule.exports = {\n  content: ['./src/**/*.{js,jsx,ts,tsx}'],\n  theme: {\n    extend: {\n      colors: {\n        'primary-background': '#1A1A1A',\n        'primary-surface': '#2C2C2C',\n        'text-primary': '#FFFFFF',\n        'text-secondary': '#A9A9A9',\n        'accent-blue': '#007BFF',\n        'status-error': '#FF4D4F',\n        'status-warning': '#FAAD14',\n        'status-success': '#52C41A',\n      },\n      fontFamily: {\n        'primary': ['Pretendard', 'Noto Sans KR', 'sans-serif'],\n        'mono': ['SF Mono', 'Monaco', 'monospace'],\n      },\n    },\n  },\n  plugins: [],\n};\n```\n3. Set up shadcn/ui components:\n```bash\nnpx shadcn-ui@latest init\n```\n4. Install and configure required shadcn/ui components:\n```bash\nnpx shadcn-ui@latest add button card dialog dropdown-menu input select tabs toast\n```\n5. Install Lucide React for icons:\n```bash\nnpm install lucide-react\n```\n6. Create a theme provider component for dark mode\n7. Implement responsive layout components using the 8pt grid system\n8. Create custom component variants based on the design system",
+        "testStrategy": "1. Create a Storybook instance to document and test UI components\n2. Test components for responsive behavior across different screen sizes\n3. Verify that the design system colors and typography are correctly applied\n4. Test accessibility compliance using axe-core\n5. Ensure components work correctly in both light and dark modes",
+        "priority": "high",
+        "dependencies": [
+          1
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Set up Tailwind CSS with design system configuration",
+            "description": "Install and configure Tailwind CSS with the project's design system colors, typography, and spacing according to the PRD specifications.",
+            "dependencies": [],
+            "details": "Install Tailwind CSS and its dependencies. Configure the tailwind.config.js file with the specified color palette, typography settings, and 8pt grid system. Ensure the configuration includes all design tokens from the PRD including primary-background, primary-surface, text colors, accent colors, and status indicators.",
+            "status": "pending",
+            "testStrategy": "Verify that all design tokens are correctly defined in the configuration. Test that the colors render correctly in the browser. Confirm that the typography settings are applied correctly to text elements."
+          },
+          {
+            "id": 2,
+            "title": "Install and configure shadcn/ui components",
+            "description": "Set up shadcn/ui library and install the required UI components specified in the implementation details.",
+            "dependencies": [
+              "4.1"
+            ],
+            "details": "Run the shadcn-ui initialization command. Install the specified components including button, card, dialog, dropdown-menu, input, select, tabs, and toast. Configure the components to use the project's design system. Install Lucide React for icons as specified in the implementation details.",
+            "status": "pending",
+            "testStrategy": "Verify that all components are correctly installed and accessible. Test that the components render correctly with the project's design system. Check that the components are properly typed with TypeScript."
+          },
+          {
+            "id": 3,
+            "title": "Create theme provider with dark mode support",
+            "description": "Implement a theme provider component that supports dark mode and applies the design system consistently across the application.",
+            "dependencies": [
+              "4.1",
+              "4.2"
+            ],
+            "details": "Create a ThemeProvider component that wraps the application and provides theme context. Implement dark mode toggle functionality. Ensure the theme provider applies the correct color scheme based on user preference. Store theme preference in local storage for persistence across sessions.",
+            "status": "pending",
+            "testStrategy": "Test theme switching between light and dark modes. Verify that theme preference is persisted across page reloads. Test that all components correctly respond to theme changes. Ensure accessibility contrast requirements are met in both themes."
+          },
+          {
+            "id": 4,
+            "title": "Implement responsive layout components",
+            "description": "Create responsive layout components using the 8pt grid system specified in the design system.",
+            "dependencies": [
+              "4.1",
+              "4.2"
+            ],
+            "details": "Develop container, grid, and flex components that implement the 8pt grid system. Create responsive breakpoint utilities that align with the design system. Implement spacing utilities that follow the 8pt grid. Ensure all layout components are responsive across mobile, tablet, and desktop viewports.",
+            "status": "pending",
+            "testStrategy": "Test layout components at various screen sizes to verify responsive behavior. Verify that the 8pt grid system is consistently applied. Test that components maintain proper spacing and alignment across breakpoints. Ensure no horizontal overflow occurs on mobile devices."
+          },
+          {
+            "id": 5,
+            "title": "Create custom component variants based on design system",
+            "description": "Extend the base shadcn/ui components with custom variants that match the design system specifications.",
+            "dependencies": [
+              "4.1",
+              "4.2",
+              "4.3"
+            ],
+            "details": "Create custom variants for buttons (primary, secondary, ghost, destructive). Implement custom card variants for different use cases. Develop form component variants that match the design system. Create custom dialog and modal variants. Ensure all custom variants are properly typed and documented.",
+            "status": "pending",
+            "testStrategy": "Test all custom variants to ensure they render correctly. Verify that variants respond appropriately to different states (hover, focus, active, disabled). Test accessibility of all custom variants. Create a Storybook instance to document and showcase the component variants."
+          }
+        ]
+      },
+      {
+        "id": 5,
+        "title": "Implement Search-based Interactive Script Generation UI",
+        "description": "Develop the main search interface for finding existing check sets and templates, and creating new check items as specified in Story 2.1.1.",
+        "details": "1. Create a `SearchBar` component with real-time search functionality:\n```typescript\nimport { useState, useEffect } from 'react';\nimport { useDebounce } from '../hooks/useDebounce';\nimport { useGetSearchSuggestionsQuery } from '../services/api';\n\nexport function SearchBar() {\n  const [searchTerm, setSearchTerm] = useState('');\n  const debouncedSearchTerm = useDebounce(searchTerm, 300);\n  const { data, isLoading } = useGetSearchSuggestionsQuery(\n    { query: debouncedSearchTerm },\n    { skip: debouncedSearchTerm.length < 2 }\n  );\n  \n  // Component implementation...\n}\n```\n2. Implement `CheckSetLibrary` component to display available check sets and templates when search is empty\n3. Create `SearchResults` component to display real-time search results\n4. Implement conditional rendering logic to switch between library view and search results\n5. Create form components for different check item types:\n   - Basic script template selection form\n   - New check item form with detailed parameters\n   - Process check form\n   - Configuration file check form\n6. Implement dynamic form rendering based on selected check item type\n7. Add validation using React Hook Form and Zod:\n```bash\nnpm install react-hook-form zod @hookform/resolvers\n```\n8. Create confirmation modal for script generation requests\n9. Implement loading states and error handling",
+        "testStrategy": "1. Test search functionality with mock API responses\n2. Verify that debounce works correctly (300ms delay)\n3. Test conditional rendering between library view and search results\n4. Test form validation for all input types\n5. Verify that the correct form is displayed based on selected check item type\n6. Test form submission and API integration\n7. Test error handling and loading states",
+        "priority": "high",
+        "dependencies": [
+          2,
+          3,
+          4
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Implement SearchBar Component with Real-time Search",
+            "description": "Create a SearchBar component that provides real-time search functionality with debounced API calls for search suggestions.",
+            "dependencies": [],
+            "details": "Implement the SearchBar component using useState and useDebounce hooks. Connect to the useGetSearchSuggestionsQuery API endpoint. Add input field with onChange handler to update search term. Display loading indicator during API calls. Style the component according to design specifications.",
+            "status": "pending",
+            "testStrategy": "Test debounce functionality to ensure API is not called on every keystroke. Verify search suggestions appear after typing at least 2 characters. Test loading states display correctly. Ensure API is not called when input is less than minimum length."
+          },
+          {
+            "id": 2,
+            "title": "Develop CheckSetLibrary and SearchResults Components",
+            "description": "Create components to display available check sets/templates and search results with conditional rendering between them.",
+            "dependencies": [
+              "5.1"
+            ],
+            "details": "Implement CheckSetLibrary component to show available check sets and templates in a grid or list view. Create SearchResults component to display filtered results based on search term. Add conditional rendering logic to switch between library view (when search is empty) and search results view. Include pagination or infinite scrolling for large result sets.",
+            "status": "pending",
+            "testStrategy": "Test conditional rendering logic between library and search views. Verify correct data is displayed in each view. Test pagination/infinite scrolling functionality. Ensure proper loading states and empty states are displayed."
+          },
+          {
+            "id": 3,
+            "title": "Create Form Components for Different Check Item Types",
+            "description": "Implement various form components for different check item types with appropriate fields and validation.",
+            "dependencies": [],
+            "details": "Create form components for: basic script template selection, new check item with detailed parameters, process check form, and configuration file check form. Implement React Hook Form with Zod schema validation. Add appropriate input fields, dropdowns, and toggles based on check item type. Include field-level validation with error messages.",
+            "status": "pending",
+            "testStrategy": "Test form validation for required fields and data formats. Verify form submission with valid and invalid data. Test that appropriate error messages are displayed. Ensure form state is properly managed."
+          },
+          {
+            "id": 4,
+            "title": "Implement Dynamic Form Rendering Based on Selection",
+            "description": "Create a system to dynamically render the appropriate form based on the selected check item type.",
+            "dependencies": [
+              "5.3"
+            ],
+            "details": "Implement a form factory pattern to render the correct form component based on selected check item type. Create a selection interface for users to choose check item type. Add smooth transitions between form types. Ensure form state is preserved when switching between types if needed.",
+            "status": "pending",
+            "testStrategy": "Test that correct form is displayed for each check item type. Verify transitions between form types work smoothly. Test that form state is preserved or reset appropriately when switching types. Ensure accessibility of the selection interface."
+          },
+          {
+            "id": 5,
+            "title": "Add Confirmation Modal and Error Handling",
+            "description": "Implement a confirmation modal for script generation requests and comprehensive error handling throughout the UI.",
+            "dependencies": [
+              "5.2",
+              "5.4"
+            ],
+            "details": "Create a confirmation modal component that displays a summary of the script to be generated. Implement loading states for all API calls. Add error handling with user-friendly error messages. Create toast notifications for success and error states. Implement retry functionality for failed requests where appropriate.",
+            "status": "pending",
+            "testStrategy": "Test confirmation modal displays correct script summary. Verify loading states appear during API calls. Test error handling with simulated API failures. Ensure toast notifications appear with appropriate messages. Test retry functionality works correctly."
+          }
+        ]
+      },
+      {
+        "id": 6,
+        "title": "Implement Monaco Editor for Code Viewing and Editing",
+        "description": "Integrate Monaco Editor to provide a high-quality code viewer and editor for shell scripts and test code as specified in Story 2.2.1.",
+        "details": "1. Install Monaco Editor:\n```bash\nnpm install monaco-editor @monaco-editor/react\n```\n2. Create a reusable `CodeEditor` component:\n```typescript\nimport { useRef } from 'react';\nimport Editor, { Monaco } from '@monaco-editor/react';\nimport { editor } from 'monaco-editor';\n\ninterface CodeEditorProps {\n  value: string;\n  language: 'shell' | 'bats' | 'javascript';\n  readOnly?: boolean;\n  onChange?: (value: string) => void;\n  height?: string;\n}\n\nexport function CodeEditor({\n  value,\n  language,\n  readOnly = false,\n  onChange,\n  height = '500px',\n}: CodeEditorProps) {\n  const editorRef = useRef<editor.IStandaloneCodeEditor | null>(null);\n\n  const handleEditorDidMount = (editor: editor.IStandaloneCodeEditor, monaco: Monaco) => {\n    editorRef.current = editor;\n    \n    // Configure editor options\n    editor.updateOptions({\n      minimap: { enabled: true },\n      lineNumbers: 'on',\n      folding: true,\n      readOnly,\n      theme: 'vs-dark',\n    });\n    \n    // Add custom language support for BATS if needed\n    if (language === 'bats') {\n      monaco.languages.register({ id: 'bats' });\n      monaco.languages.setMonarchTokensProvider('bats', {\n        // Custom syntax highlighting rules for BATS\n      });\n    }\n  };\n\n  return (\n    <Editor\n      height={height}\n      language={language === 'bats' ? 'shell' : language}\n      value={value}\n      onMount={handleEditorDidMount}\n      onChange={(value) => onChange?.(value || '')}\n      options={{\n        readOnly,\n        automaticLayout: true,\n      }}\n    />\n  );\n}\n```\n3. Implement syntax highlighting for Bash and BATS languages\n4. Add line numbers, code folding, and minimap navigation features\n5. Create a tabbed interface to switch between script and test code\n6. Implement read-only and edit mode toggle functionality\n7. Add error highlighting integration with backend linter\n8. Implement one-click clipboard copy functionality",
+        "testStrategy": "1. Test editor initialization with different language modes\n2. Verify that syntax highlighting works correctly for Bash and BATS\n3. Test read-only mode and edit mode switching\n4. Verify that code folding and minimap navigation work correctly\n5. Test clipboard copy functionality\n6. Test tab switching between script and test code\n7. Verify error highlighting with mock linter responses",
+        "priority": "high",
+        "dependencies": [
+          1,
+          4
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Set up Monaco Editor with basic configuration",
+            "description": "Install Monaco Editor package and create the basic CodeEditor component with essential configuration options.",
+            "dependencies": [],
+            "details": "Install Monaco Editor packages using npm. Create the initial CodeEditor component with props for value, language selection, read-only mode, and onChange handler. Implement the basic editor configuration including theme, line numbers, and minimap.",
+            "status": "pending",
+            "testStrategy": "Test editor initialization with different language modes. Verify basic editor features like syntax highlighting and line numbers are working correctly."
+          },
+          {
+            "id": 2,
+            "title": "Implement custom language support for BATS",
+            "description": "Add custom syntax highlighting and language support for BATS test files.",
+            "dependencies": [
+              "6.1"
+            ],
+            "details": "Register BATS as a custom language in Monaco. Create monarch token provider for BATS syntax highlighting. Define language rules that properly highlight BATS-specific syntax while leveraging existing shell language support. Test with sample BATS files to ensure proper highlighting.",
+            "status": "pending",
+            "testStrategy": "Verify that BATS-specific syntax is correctly highlighted. Compare rendering of BATS files with standard shell files to ensure proper differentiation."
+          },
+          {
+            "id": 3,
+            "title": "Implement editor features: folding, minimap, and read-only toggle",
+            "description": "Add code folding capabilities, minimap navigation, and the ability to toggle between read-only and edit modes.",
+            "dependencies": [
+              "6.1"
+            ],
+            "details": "Configure code folding options in the editor. Set up minimap with appropriate sizing and visibility options. Create a toggle mechanism to switch between read-only and edit modes that updates the editor configuration dynamically.",
+            "status": "pending",
+            "testStrategy": "Test code folding functionality with nested code blocks. Verify minimap navigation works correctly. Test switching between read-only and edit modes and ensure proper behavior in each mode."
+          },
+          {
+            "id": 4,
+            "title": "Create tabbed interface for script and test code",
+            "description": "Implement a tabbed interface that allows users to switch between viewing script code and test code.",
+            "dependencies": [
+              "6.1",
+              "6.3"
+            ],
+            "details": "Create a tab component that integrates with the CodeEditor. Implement tab switching logic to display either script or test code. Ensure editor state is preserved when switching between tabs. Add appropriate styling for the tab interface.",
+            "status": "pending",
+            "testStrategy": "Test tab switching between script and test code. Verify that editor state is preserved when switching tabs. Test keyboard shortcuts for tab navigation if implemented."
+          },
+          {
+            "id": 5,
+            "title": "Integrate with backend linter for error highlighting",
+            "description": "Connect the editor to the backend linting service to highlight errors and potential issues in the code.",
+            "dependencies": [
+              "6.1",
+              "6.2"
+            ],
+            "details": "Create a service to communicate with the backend linter API. Implement markers and decorations in Monaco Editor to highlight errors. Add hover tooltips to display error details. Update linting results in real-time as code changes.",
+            "status": "pending",
+            "testStrategy": "Test linter integration with mock API responses. Verify that error markers are correctly displayed in the editor. Test hover tooltips for error details. Verify that different severity levels are displayed with appropriate visual indicators."
+          }
+        ]
+      },
+      {
+        "id": 7,
+        "title": "Implement Test Results Dashboard",
+        "description": "Create a visual dashboard for displaying test execution results across different environments as specified in Story 2.2.2.",
+        "details": "1. Install Recharts for data visualization:\n```bash\nnpm install recharts\n```\n2. Create a `TestResultsTable` component:\n```typescript\nimport { useState } from 'react';\nimport { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from '../components/ui/table';\nimport { Badge } from '../components/ui/badge';\nimport { Dialog, DialogContent, DialogHeader, DialogTitle } from '../components/ui/dialog';\n\ninterface TestResult {\n  environment: string;\n  testCase: string;\n  status: 'pass' | 'fail' | 'n/a';\n  logs?: string;\n}\n\ninterface TestResultsTableProps {\n  results: TestResult[];\n}\n\nexport function TestResultsTable({ results }: TestResultsTableProps) {\n  const [selectedResult, setSelectedResult] = useState<TestResult | null>(null);\n  \n  // Group results by environment and test case\n  const environments = [...new Set(results.map(r => r.environment))];\n  const testCases = [...new Set(results.map(r => r.testCase))];\n  \n  const getResultForCell = (env: string, test: string) => {\n    return results.find(r => r.environment === env && r.testCase === test) || null;\n  };\n  \n  const getStatusColor = (status: string) => {\n    switch (status) {\n      case 'pass': return 'bg-status-success';\n      case 'fail': return 'bg-status-error';\n      default: return 'bg-gray-400';\n    }\n  };\n  \n  return (\n    <>\n      <Table>\n        <TableHeader>\n          <TableRow>\n            <TableHead>Environment / Test</TableHead>\n            {testCases.map(test => (\n              <TableHead key={test}>{test}</TableHead>\n            ))}\n          </TableRow>\n        </TableHeader>\n        <TableBody>\n          {environments.map(env => (\n            <TableRow key={env}>\n              <TableCell>{env}</TableCell>\n              {testCases.map(test => {\n                const result = getResultForCell(env, test);\n                return (\n                  <TableCell key={`${env}-${test}`} onClick={() => result && setSelectedResult(result)}>\n                    {result ? (\n                      <Badge className={getStatusColor(result.status)}>\n                        {result.status.toUpperCase()}\n                      </Badge>\n                    ) : '-'}\n                  </TableCell>\n                );\n              })}\n            </TableRow>\n          ))}\n        </TableBody>\n      </Table>\n      \n      <Dialog open={!!selectedResult} onOpenChange={() => setSelectedResult(null)}>\n        <DialogContent>\n          <DialogHeader>\n            <DialogTitle>Test Details</DialogTitle>\n          </DialogHeader>\n          <div className=\"max-h-96 overflow-auto font-mono text-sm whitespace-pre-wrap\">\n            {selectedResult?.logs || 'No logs available'}\n          </div>\n        </DialogContent>\n      </Dialog>\n    </>\n  );\n}\n```\n3. Implement sorting and filtering functionality for the test results table\n4. Create visual indicators for test status (pass/fail/n/a) using appropriate colors\n5. Implement a modal or drawer component to display detailed test logs\n6. Add summary statistics and charts for test results overview\n7. Implement real-time updates for test results using Socket.io",
+        "testStrategy": "1. Test table rendering with mock test results data\n2. Verify that sorting and filtering work correctly\n3. Test modal/drawer opening when clicking on a test result cell\n4. Verify that status indicators display the correct colors\n5. Test real-time updates with mock Socket.io events\n6. Test responsive behavior on different screen sizes\n7. Verify accessibility of the table and modal components",
+        "priority": "medium",
+        "dependencies": [
+          2,
+          4
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Create Summary Statistics Component",
+            "description": "Implement a component to display summary statistics of test results including pass/fail rates and test coverage metrics.",
+            "dependencies": [],
+            "details": "Create a new React component called `TestResultsSummary` that displays key metrics like total tests, pass rate, fail rate, and test coverage. Use Recharts to create a pie chart showing the distribution of test statuses. The component should accept the same test results data structure as the TestResultsTable.",
+            "status": "pending",
+            "testStrategy": "Test rendering with various data sets, verify calculations are correct, ensure responsive design works on different screen sizes, test accessibility of chart elements."
+          },
+          {
+            "id": 2,
+            "title": "Implement Environment Comparison Chart",
+            "description": "Create a bar chart component that allows comparison of test results across different environments.",
+            "dependencies": [
+              "7.1"
+            ],
+            "details": "Develop an `EnvironmentComparisonChart` component using Recharts that shows stacked bar charts comparing pass/fail/n/a counts across environments. Include tooltips for detailed information and implement filters to show specific test subsets.",
+            "status": "pending",
+            "testStrategy": "Test chart rendering with mock data, verify tooltip functionality, test filter interactions, ensure chart updates correctly when data changes."
+          },
+          {
+            "id": 3,
+            "title": "Add Sorting and Filtering to TestResultsTable",
+            "description": "Enhance the existing TestResultsTable component with sorting and filtering capabilities.",
+            "dependencies": [],
+            "details": "Modify the TestResultsTable component to include: 1) Environment filter dropdown, 2) Test case search functionality, 3) Status filter (pass/fail/n/a), 4) Column sorting for all fields. Implement these features using React state and memoization for performance.",
+            "status": "pending",
+            "testStrategy": "Test each filter individually and in combination, verify sorting works correctly for all columns, test edge cases like empty result sets, verify performance with large data sets."
+          },
+          {
+            "id": 4,
+            "title": "Implement Real-time Updates with Socket.io",
+            "description": "Add Socket.io integration to enable real-time updates of test results on the dashboard.",
+            "dependencies": [
+              "7.1",
+              "7.2",
+              "7.3"
+            ],
+            "details": "Install Socket.io client: `npm install socket.io-client`. Create a service to manage socket connections and events. Implement event handlers to update the Redux store when new test results are received. Add visual indicators for tests that are currently running or recently updated.",
+            "status": "pending",
+            "testStrategy": "Test connection establishment and reconnection logic, verify event handling with mock Socket.io events, test UI updates when new data arrives, verify performance under high-frequency updates."
+          },
+          {
+            "id": 5,
+            "title": "Create Main Dashboard Layout and Integration",
+            "description": "Develop the main dashboard layout that integrates all components and implement responsive design.",
+            "dependencies": [
+              "7.1",
+              "7.2",
+              "7.3",
+              "7.4"
+            ],
+            "details": "Create a `TestResultsDashboard` page component that integrates all previously developed components. Implement a responsive layout using CSS Grid or Flexbox that works well on desktop and mobile devices. Add configuration options for users to customize their dashboard view. Connect to the Redux store for state management.",
+            "status": "pending",
+            "testStrategy": "Test responsive behavior across different screen sizes, verify all components integrate correctly, test state management and data flow, verify accessibility compliance, test user preference saving and loading."
+          }
+        ]
+      },
+      {
+        "id": 8,
+        "title": "Implement Check Set and Template Management",
+        "description": "Create interfaces for managing saved check sets and templates as specified in Story 2.3.1.",
+        "details": "1. Create a `DataTable` component for displaying check sets and templates:\n```typescript\nimport { useState } from 'react';\nimport { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from '../components/ui/table';\nimport { Button } from '../components/ui/button';\nimport { Input } from '../components/ui/input';\nimport { Pagination } from '../components/ui/pagination';\n\ninterface DataItem {\n  id: string;\n  title: string;\n  description: string;\n  createdAt: string;\n  [key: string]: any;\n}\n\ninterface DataTableProps<T extends DataItem> {\n  data: T[];\n  columns: {\n    key: keyof T;\n    header: string;\n    cell?: (item: T) => React.ReactNode;\n  }[];\n  onEdit?: (item: T) => void;\n  onDelete?: (item: T) => void;\n  onView?: (item: T) => void;\n}\n\nexport function DataTable<T extends DataItem>({\n  data,\n  columns,\n  onEdit,\n  onDelete,\n  onView,\n}: DataTableProps<T>) {\n  const [searchTerm, setSearchTerm] = useState('');\n  const [currentPage, setCurrentPage] = useState(1);\n  const itemsPerPage = 10;\n  \n  // Filter data based on search term\n  const filteredData = data.filter(item =>\n    item.title.toLowerCase().includes(searchTerm.toLowerCase()) ||\n    item.description.toLowerCase().includes(searchTerm.toLowerCase())\n  );\n  \n  // Paginate data\n  const paginatedData = filteredData.slice(\n    (currentPage - 1) * itemsPerPage,\n    currentPage * itemsPerPage\n  );\n  \n  const totalPages = Math.ceil(filteredData.length / itemsPerPage);\n  \n  return (\n    <div>\n      <div className=\"mb-4\">\n        <Input\n          placeholder=\"Search...\"\n          value={searchTerm}\n          onChange={(e) => setSearchTerm(e.target.value)}\n          className=\"max-w-sm\"\n        />\n      </div>\n      \n      <Table>\n        <TableHeader>\n          <TableRow>\n            {columns.map((column) => (\n              <TableHead key={column.key as string}>{column.header}</TableHead>\n            ))}\n            <TableHead>Actions</TableHead>\n          </TableRow>\n        </TableHeader>\n        <TableBody>\n          {paginatedData.map((item) => (\n            <TableRow key={item.id}>\n              {columns.map((column) => (\n                <TableCell key={`${item.id}-${column.key as string}`}>\n                  {column.cell ? column.cell(item) : item[column.key]}\n                </TableCell>\n              ))}\n              <TableCell>\n                <div className=\"flex space-x-2\">\n                  {onView && (\n                    <Button variant=\"outline\" size=\"sm\" onClick={() => onView(item)}>\n                      View\n                    </Button>\n                  )}\n                  {onEdit && (\n                    <Button variant=\"outline\" size=\"sm\" onClick={() => onEdit(item)}>\n                      Edit\n                    </Button>\n                  )}\n                  {onDelete && (\n                    <Button variant=\"outline\" size=\"sm\" onClick={() => onDelete(item)}>\n                      Delete\n                    </Button>\n                  )}\n                </div>\n              </TableCell>\n            </TableRow>\n          ))}\n        </TableBody>\n      </Table>\n      \n      {totalPages > 1 && (\n        <Pagination\n          currentPage={currentPage}\n          totalPages={totalPages}\n          onPageChange={setCurrentPage}\n          className=\"mt-4\"\n        />\n      )}\n    </div>\n  );\n}\n```\n2. Create separate pages for check sets and templates management\n3. Implement search, filtering, and pagination functionality\n4. Add action buttons for viewing, editing, and deleting items\n5. Create confirmation dialogs for delete operations\n6. Implement sorting functionality for table columns\n7. Add export functionality for check sets and templates",
+        "testStrategy": "1. Test table rendering with mock data\n2. Verify that search and filtering work correctly\n3. Test pagination functionality\n4. Verify that action buttons trigger the correct callbacks\n5. Test confirmation dialogs for delete operations\n6. Test sorting functionality\n7. Verify that export functionality works correctly",
+        "priority": "medium",
+        "dependencies": [
+          2,
+          3,
+          4
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Create CheckSet and Template Interfaces",
+            "description": "Develop separate page components for managing check sets and templates using the DataTable component",
+            "dependencies": [],
+            "details": "Create CheckSetPage.tsx and TemplatePage.tsx components that utilize the DataTable component. Define appropriate column configurations for each page. Implement the layout structure with proper headings, descriptions, and action buttons (New, Import). Connect these pages to the routing system.",
+            "status": "pending",
+            "testStrategy": "Test rendering of both pages with mock data. Verify that column configurations display correctly. Test navigation to these pages. Ensure action buttons are properly positioned and styled."
+          },
+          {
+            "id": 2,
+            "title": "Implement CRUD Operations for Check Sets and Templates",
+            "description": "Create services and handlers for creating, reading, updating, and deleting check sets and templates",
+            "dependencies": [
+              "8.1"
+            ],
+            "details": "Develop API services for check sets and templates using RTK Query. Implement handlers for the onView, onEdit, and onDelete callbacks in the DataTable component. Create modal dialogs for editing and creating new items. Implement confirmation dialogs for delete operations with appropriate warning messages.",
+            "status": "pending",
+            "testStrategy": "Test API integration with mock responses. Verify that CRUD operations update the UI correctly. Test validation in create/edit forms. Ensure confirmation dialogs appear before deletion and prevent accidental deletions."
+          },
+          {
+            "id": 3,
+            "title": "Enhance DataTable with Sorting Functionality",
+            "description": "Add column sorting capabilities to the DataTable component",
+            "dependencies": [
+              "8.1"
+            ],
+            "details": "Extend the DataTable component to support sorting by columns. Add sort direction indicators to column headers. Implement click handlers on column headers to toggle sort direction. Update the component to maintain sort state and apply sorting to the displayed data.",
+            "status": "pending",
+            "testStrategy": "Test sorting by different columns. Verify that sort indicators display correctly. Test toggling between ascending, descending, and unsorted states. Ensure sorting works correctly with pagination and filtering."
+          },
+          {
+            "id": 4,
+            "title": "Implement Export Functionality",
+            "description": "Add the ability to export check sets and templates in various formats",
+            "dependencies": [
+              "8.1",
+              "8.2"
+            ],
+            "details": "Create an export service that can convert check sets and templates to JSON and other formats. Add export buttons to the UI with a dropdown for format selection. Implement file download functionality using the browser's download API. Add success notifications after successful exports.",
+            "status": "pending",
+            "testStrategy": "Test exporting in different formats. Verify that downloaded files contain the correct data. Test export functionality with large datasets. Ensure proper error handling if export fails."
+          },
+          {
+            "id": 5,
+            "title": "Optimize Performance and Add Filtering Options",
+            "description": "Enhance the DataTable with additional filtering options and performance optimizations",
+            "dependencies": [
+              "8.1",
+              "8.3"
+            ],
+            "details": "Add filter controls for additional fields beyond the search input. Implement debouncing for search input to prevent excessive re-renders. Add date range filters for createdAt field. Optimize rendering of large datasets using virtualization or chunking. Implement filter persistence across page reloads.",
+            "status": "pending",
+            "testStrategy": "Test filtering with multiple criteria simultaneously. Verify that debouncing works correctly for search. Test performance with large datasets (100+ items). Ensure filters persist when navigating away and back to the page."
+          }
+        ]
+      },
+      {
+        "id": 9,
+        "title": "Implement One-Click Clipboard Copy Functionality",
+        "description": "Add functionality to copy code from the editor to the clipboard with a single click as specified in Story 2.4.1.",
+        "details": "1. Create a reusable `CopyButton` component:\n```typescript\nimport { useState } from 'react';\nimport { Button } from './ui/button';\nimport { Check, Copy } from 'lucide-react';\nimport { useToast } from './ui/use-toast';\n\ninterface CopyButtonProps {\n  text: string;\n  label?: string;\n  className?: string;\n}\n\nexport function CopyButton({ text, label = 'Copy', className }: CopyButtonProps) {\n  const [copied, setCopied] = useState(false);\n  const { toast } = useToast();\n  \n  const handleCopy = async () => {\n    try {\n      await navigator.clipboard.writeText(text);\n      setCopied(true);\n      toast({\n        title: 'Copied!',\n        description: 'Code copied to clipboard',\n        duration: 2000,\n      });\n      \n      // Reset copied state after 2 seconds\n      setTimeout(() => setCopied(false), 2000);\n    } catch (err) {\n      console.error('Failed to copy text: ', err);\n      toast({\n        title: 'Copy failed',\n        description: 'Could not copy to clipboard',\n        variant: 'destructive',\n      });\n    }\n  };\n  \n  return (\n    <Button\n      variant=\"outline\"\n      size=\"sm\"\n      onClick={handleCopy}\n      className={className}\n    >\n      {copied ? <Check className=\"h-4 w-4 mr-2\" /> : <Copy className=\"h-4 w-4 mr-2\" />}\n      {copied ? 'Copied!' : label}\n    </Button>\n  );\n}\n```\n2. Integrate the `CopyButton` component with the Monaco Editor\n3. Add visual feedback using Toast notifications\n4. Implement clipboard access using the Clipboard API\n5. Add fallback mechanism for browsers that don't support the Clipboard API\n6. Ensure the copy button is visible and accessible",
+        "testStrategy": "1. Test clipboard copy functionality in different browsers\n2. Verify that Toast notifications appear when copying succeeds or fails\n3. Test the fallback mechanism for browsers without Clipboard API support\n4. Verify that the button state changes correctly after copying\n5. Test accessibility of the copy button\n6. Test integration with the Monaco Editor",
+        "priority": "medium",
+        "dependencies": [
+          6
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Integrate CopyButton with Monaco Editor",
+            "description": "Add the CopyButton component to the Monaco Editor interface to enable one-click copying of code.",
+            "dependencies": [],
+            "details": "Position the CopyButton in the top-right corner of the Monaco Editor component. Ensure the button is properly connected to the editor's content by passing the current editor value to the CopyButton's text prop. Update the button styling to match the editor's theme and ensure it's visible but not intrusive.",
+            "status": "pending",
+            "testStrategy": "Test that the button appears correctly in the editor UI. Verify that clicking the button copies the current editor content. Test with different editor content lengths and types."
+          },
+          {
+            "id": 2,
+            "title": "Implement Clipboard API Access",
+            "description": "Ensure the CopyButton component correctly uses the Clipboard API to copy text to the clipboard.",
+            "dependencies": [
+              "9.1"
+            ],
+            "details": "Review and finalize the implementation of the handleCopy function in the CopyButton component. Ensure proper error handling for clipboard access failures. Test the function with various text content types and lengths.",
+            "status": "pending",
+            "testStrategy": "Test clipboard functionality across different browsers (Chrome, Firefox, Safari). Verify that the copied text matches the editor content exactly. Test with special characters, multi-line code, and very large code blocks."
+          },
+          {
+            "id": 3,
+            "title": "Add Fallback Mechanism for Clipboard API",
+            "description": "Implement a fallback solution for browsers that don't support the Clipboard API.",
+            "dependencies": [
+              "9.2"
+            ],
+            "details": "Create a fallback method using document.execCommand('copy') for browsers without Clipboard API support. Add feature detection to automatically use the appropriate method. Implement a temporary textarea element approach for the fallback mechanism that is hidden from view but can be used to copy text.",
+            "status": "pending",
+            "testStrategy": "Test in browsers with Clipboard API disabled. Verify the fallback mechanism works in older browsers. Ensure the temporary elements are properly cleaned up after copying."
+          },
+          {
+            "id": 4,
+            "title": "Enhance Visual Feedback for Copy Operations",
+            "description": "Improve the visual feedback when code is copied, including Toast notifications and button state changes.",
+            "dependencies": [
+              "9.2"
+            ],
+            "details": "Refine the Toast notification styling and messaging for successful and failed copy operations. Ensure the CopyButton icon changes from Copy to Check when successful. Implement smooth transitions between button states. Make sure the copied state resets after the appropriate timeout.",
+            "status": "pending",
+            "testStrategy": "Verify Toast notifications appear with correct messaging. Test that the button state changes visually when clicked. Ensure the button returns to its original state after the timeout period."
+          },
+          {
+            "id": 5,
+            "title": "Ensure Accessibility Compliance",
+            "description": "Make sure the copy functionality is fully accessible according to WCAG standards.",
+            "dependencies": [
+              "9.1",
+              "9.4"
+            ],
+            "details": "Add proper ARIA attributes to the CopyButton component. Ensure keyboard navigation works correctly (users can tab to the button and activate it with Enter/Space). Add screen reader friendly text and announcements for copy operations. Test with various screen readers and keyboard-only navigation.",
+            "status": "pending",
+            "testStrategy": "Test with screen readers to verify announcements. Verify keyboard navigation works properly. Check color contrast ratios for the button in different states. Test with various assistive technologies."
+          }
+        ]
+      },
+      {
+        "id": 10,
+        "title": "Implement Multi-Tab Interface",
+        "description": "Create a browser-like tabbed interface for working with multiple check sets or scripts simultaneously as specified in Story 2.4.2.",
+        "details": "1. Create a `TabsManager` component using the Redux store for state management:\n```typescript\nimport { useSelector, useDispatch } from 'react-redux';\nimport { Tabs, TabsList, TabsTrigger, TabsContent } from '../components/ui/tabs';\nimport { RootState } from '../store';\nimport { openTab, closeTab, setActiveTab } from '../store/slices/editorSlice';\nimport { X } from 'lucide-react';\n\ninterface Tab {\n  id: string;\n  title: string;\n  type: 'script' | 'template';\n  content: any; // The data associated with this tab\n}\n\nexport function TabsManager() {\n  const { tabs, activeTabId } = useSelector((state: RootState) => state.editor);\n  const dispatch = useDispatch();\n  \n  const handleTabClose = (e: React.MouseEvent, tabId: string) => {\n    e.stopPropagation(); // Prevent tab activation when closing\n    dispatch(closeTab(tabId));\n  };\n  \n  return (\n    <Tabs value={activeTabId} onValueChange={(value) => dispatch(setActiveTab(value))}>\n      <TabsList className=\"w-full overflow-x-auto\">\n        {tabs.map((tab) => (\n          <TabsTrigger key={tab.id} value={tab.id} className=\"flex items-center\">\n            {tab.title}\n            <button\n              onClick={(e) => handleTabClose(e, tab.id)}\n              className=\"ml-2 rounded-full p-1 hover:bg-gray-200 dark:hover:bg-gray-700\"\n            >\n              <X className=\"h-3 w-3\" />\n            </button>\n          </TabsTrigger>\n        ))}\n      </TabsList>\n      \n      {tabs.map((tab) => (\n        <TabsContent key={tab.id} value={tab.id}>\n          {/* Render different content based on tab type */}\n          {tab.type === 'script' ? (\n            <ScriptEditor script={tab.content} />\n          ) : (\n            <TemplateEditor template={tab.content} />\n          )}\n        </TabsContent>\n      ))}\n    </Tabs>\n  );\n}\n```\n2. Create Redux slice for managing tab state:\n```typescript\nimport { createSlice, PayloadAction } from '@reduxjs/toolkit';\n\ninterface Tab {\n  id: string;\n  title: string;\n  type: 'script' | 'template';\n  content: any;\n}\n\ninterface EditorState {\n  tabs: Tab[];\n  activeTabId: string | null;\n}\n\nconst initialState: EditorState = {\n  tabs: [],\n  activeTabId: null,\n};\n\nconst editorSlice = createSlice({\n  name: 'editor',\n  initialState,\n  reducers: {\n    openTab: (state, action: PayloadAction<Tab>) => {\n      // Check if tab already exists\n      const existingTabIndex = state.tabs.findIndex(tab => tab.id === action.payload.id);\n      \n      if (existingTabIndex >= 0) {\n        // Tab already exists, just activate it\n        state.activeTabId = action.payload.id;\n      } else {\n        // Add new tab\n        state.tabs.push(action.payload);\n        state.activeTabId = action.payload.id;\n      }\n    },\n    closeTab: (state, action: PayloadAction<string>) => {\n      const tabIndex = state.tabs.findIndex(tab => tab.id === action.payload);\n      \n      if (tabIndex >= 0) {\n        // Remove the tab\n        state.tabs.splice(tabIndex, 1);\n        \n        // If we closed the active tab, activate another tab if available\n        if (state.activeTabId === action.payload) {\n          state.activeTabId = state.tabs.length > 0 ? state.tabs[Math.max(0, tabIndex - 1)].id : null;\n        }\n      }\n    },\n    setActiveTab: (state, action: PayloadAction<string>) => {\n      state.activeTabId = action.payload;\n    },\n  },\n});\n\nexport const { openTab, closeTab, setActiveTab } = editorSlice.actions;\nexport default editorSlice.reducer;\n```\n3. Implement tab content components for different types (scripts, templates)\n4. Add tab persistence using localStorage\n5. Implement unsaved changes detection and confirmation before closing tabs\n6. Add keyboard shortcuts for tab navigation (Ctrl+Tab, Ctrl+Shift+Tab)\n7. Implement tab reordering with drag and drop",
+        "testStrategy": "1. Test opening, closing, and switching between tabs\n2. Verify that tab state is correctly stored in Redux\n3. Test tab persistence across page reloads\n4. Verify that unsaved changes prompt appears when closing a tab with changes\n5. Test keyboard shortcuts for tab navigation\n6. Test tab reordering with drag and drop\n7. Verify that the correct content is displayed for each tab type",
+        "priority": "medium",
+        "dependencies": [
+          2,
+          3,
+          4
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Implement TabsManager Component",
+            "description": "Create the TabsManager component that handles the display and interaction with multiple tabs in the interface.",
+            "dependencies": [],
+            "details": "Implement the TabsManager component as outlined in the specification, ensuring it correctly renders tabs, handles tab selection, and provides close functionality. Include proper typing for the Tab interface and ensure the component integrates with the Redux store for state management.",
+            "status": "pending",
+            "testStrategy": "Test tab rendering with multiple tabs, verify tab selection changes the active content, test tab close functionality, and ensure proper event propagation when closing tabs."
+          },
+          {
+            "id": 2,
+            "title": "Create Redux Slice for Tab Management",
+            "description": "Implement the Redux slice for managing tab state including opening, closing, and switching between tabs.",
+            "dependencies": [],
+            "details": "Complete the editorSlice implementation with actions for opening, closing, and setting active tabs. Ensure proper state management for tab existence checks, tab activation, and handling the active tab when closing tabs.",
+            "status": "pending",
+            "testStrategy": "Test all reducer functions with various state scenarios, verify tab opening logic for new and existing tabs, test tab closing with different tab positions, and validate active tab selection behavior."
+          },
+          {
+            "id": 3,
+            "title": "Implement Tab Content Components",
+            "description": "Create the necessary components for rendering different types of tab content (scripts and templates).",
+            "dependencies": [
+              "10.1",
+              "10.2"
+            ],
+            "details": "Develop ScriptEditor and TemplateEditor components that will be rendered based on the tab type. These components should handle the specific editing functionality required for each content type and integrate with the tab system.",
+            "status": "pending",
+            "testStrategy": "Test rendering of different content types, verify editor state is maintained per tab, test content-specific functionality for each editor type."
+          },
+          {
+            "id": 4,
+            "title": "Add Tab Persistence with localStorage",
+            "description": "Implement functionality to save and restore tab state across page reloads using localStorage.",
+            "dependencies": [
+              "10.2"
+            ],
+            "details": "Create middleware or effects to synchronize the Redux tab state with localStorage. Implement logic to load saved tabs on application startup and save tab state when tabs are modified. Include proper serialization/deserialization of tab content.",
+            "status": "pending",
+            "testStrategy": "Test persistence across page reloads, verify tab content is correctly restored, test handling of invalid stored data, and ensure performance with multiple tabs."
+          },
+          {
+            "id": 5,
+            "title": "Implement Unsaved Changes Detection",
+            "description": "Add functionality to detect unsaved changes and prompt for confirmation before closing tabs with unsaved work.",
+            "dependencies": [
+              "10.1",
+              "10.3"
+            ],
+            "details": "Implement a mechanism to track changes in tab content and mark tabs as modified. Create a confirmation dialog that appears when attempting to close a tab with unsaved changes. Update the tab close logic to check for unsaved changes before closing.",
+            "status": "pending",
+            "testStrategy": "Test detection of changes in different editor types, verify confirmation dialog appears when appropriate, test cancellation and confirmation flows, and ensure no dialog appears for unchanged content."
+          }
+        ]
+      },
+      {
+        "id": 11,
+        "title": "Implement Smart Code Highlighting",
+        "description": "Integrate with backend linter to highlight potential security vulnerabilities or prohibited commands in the code editor as specified in Story 2.4.3.",
+        "details": "1. Create a service for communicating with the backend linter API:\n```typescript\nimport { api } from './api';\n\nconst linterApi = api.injectEndpoints({\n  endpoints: (builder) => ({\n    lintScript: builder.mutation<LintResult[], { script: string }>({ \n      query: (body) => ({\n        url: '/api/scripts/lint',\n        method: 'POST',\n        body,\n      }),\n    }),\n  }),\n});\n\nexport const { useLintScriptMutation } = linterApi;\n\ninterface LintResult {\n  line: number;\n  column: number;\n  endLine: number;\n  endColumn: number;\n  severity: 'error' | 'warning' | 'info';\n  message: string;\n  rule: string;\n}\n```\n2. Extend the `CodeEditor` component to integrate with the linter:\n```typescript\nimport { useEffect, useState } from 'react';\nimport { useLintScriptMutation } from '../services/linterApi';\n\n// Inside CodeEditor component\nconst [lintScript] = useLintScriptMutation();\nconst [lintResults, setLintResults] = useState<LintResult[]>([]);\n\nuseEffect(() => {\n  const debouncedLint = setTimeout(async () => {\n    if (value && !readOnly && language === 'shell') {\n      try {\n        const results = await lintScript({ script: value }).unwrap();\n        setLintResults(results);\n      } catch (err) {\n        console.error('Linting failed:', err);\n      }\n    }\n  }, 500);\n  \n  return () => clearTimeout(debouncedLint);\n}, [value, readOnly, language, lintScript]);\n\nconst handleEditorDidMount = (editor: editor.IStandaloneCodeEditor, monaco: Monaco) => {\n  editorRef.current = editor;\n  \n  // Configure editor options...\n  \n  // Set up markers for linting results\n  if (lintResults.length > 0) {\n    const markers = lintResults.map(result => ({\n      startLineNumber: result.line,\n      startColumn: result.column,\n      endLineNumber: result.endLine,\n      endColumn: result.endColumn,\n      message: result.message,\n      severity: getSeverity(result.severity),\n    }));\n    \n    monaco.editor.setModelMarkers(\n      editor.getModel()!,\n      'linter',\n      markers\n    );\n  }\n};\n\nconst getSeverity = (severity: string) => {\n  switch (severity) {\n    case 'error': return monaco.MarkerSeverity.Error;\n    case 'warning': return monaco.MarkerSeverity.Warning;\n    default: return monaco.MarkerSeverity.Info;\n  }\n};\n```\n3. Implement visual indicators for different types of issues (errors, warnings, info)\n4. Add hover tooltips to show detailed information about each issue\n5. Implement quick fixes for common issues where applicable\n6. Add a summary panel to show all linting issues in one place\n7. Implement auto-fixing functionality for supported rules",
+        "testStrategy": "1. Test linter integration with mock API responses\n2. Verify that markers are correctly displayed in the editor\n3. Test hover tooltips for linting issues\n4. Verify that different severity levels are displayed with appropriate visual indicators\n5. Test quick fixes for common issues\n6. Test the summary panel functionality\n7. Verify that auto-fixing works correctly for supported rules",
+        "priority": "medium",
+        "dependencies": [
+          6
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Implement Linter Service Integration",
+            "description": "Complete the implementation of the linter service API integration to communicate with the backend linter.",
+            "dependencies": [],
+            "details": "Finalize the linterApi service by ensuring proper error handling, adding retry logic for failed requests, and implementing proper TypeScript typing for all responses. Add unit tests for the API service using MSW (Mock Service Worker) to simulate backend responses.",
+            "status": "pending",
+            "testStrategy": "Test the linter API integration with various mock responses including successful linting results, empty results, and error states. Verify proper error handling and retry mechanisms work as expected."
+          },
+          {
+            "id": 2,
+            "title": "Enhance CodeEditor Component with Linter Integration",
+            "description": "Extend the CodeEditor component to properly integrate with the linter service and display markers for identified issues.",
+            "dependencies": [
+              "11.1"
+            ],
+            "details": "Complete the implementation of the useEffect hook for linting, ensuring proper debouncing. Implement the handleEditorDidMount function to correctly set up Monaco editor markers based on linting results. Add support for different severity levels with appropriate visual styling.",
+            "status": "pending",
+            "testStrategy": "Test that linting is properly debounced during typing. Verify markers appear in the correct positions with appropriate styling for different severity levels. Test edge cases like empty files and files with multiple errors."
+          },
+          {
+            "id": 3,
+            "title": "Implement Hover Tooltips for Linting Issues",
+            "description": "Create detailed hover tooltips that show comprehensive information about each linting issue.",
+            "dependencies": [
+              "11.2"
+            ],
+            "details": "Extend the Monaco editor configuration to display tooltips when hovering over linting markers. Tooltips should show the issue message, severity level, rule name, and suggested fix if available. Style tooltips according to severity level with appropriate icons and colors.",
+            "status": "pending",
+            "testStrategy": "Test tooltip appearance and content for different types of linting issues. Verify that tooltips display all required information correctly. Test tooltip behavior with keyboard navigation for accessibility."
+          },
+          {
+            "id": 4,
+            "title": "Create Linting Issues Summary Panel",
+            "description": "Implement a collapsible panel that displays a summary of all linting issues found in the current file.",
+            "dependencies": [
+              "11.2"
+            ],
+            "details": "Create a new component called LintingSummaryPanel that displays all linting issues in a sortable and filterable list. Include functionality to jump to the issue location in the editor when clicking on an issue in the panel. Implement filtering by severity and rule type.",
+            "status": "pending",
+            "testStrategy": "Test the summary panel with various numbers of linting issues. Verify sorting and filtering functionality works correctly. Test that clicking on issues correctly jumps to the corresponding location in the editor."
+          },
+          {
+            "id": 5,
+            "title": "Implement Quick Fixes for Common Issues",
+            "description": "Add functionality to automatically fix common linting issues with a single click.",
+            "dependencies": [
+              "11.3",
+              "11.4"
+            ],
+            "details": "Extend the linter integration to support quick fixes for applicable rules. Add UI elements in tooltips and the summary panel to apply fixes. Implement the logic to apply fixes by modifying the editor content programmatically. Focus on security-related issues like prohibited commands replacement with safer alternatives.",
+            "status": "pending",
+            "testStrategy": "Test quick fix functionality for various types of linting issues. Verify that applying fixes correctly modifies the code. Test undo/redo functionality after applying fixes. Verify that multiple fixes can be applied sequentially."
+          }
+        ]
+      },
+      {
+        "id": 12,
+        "title": "Implement Drag and Drop File Upload",
+        "description": "Add functionality for users to upload local script files via drag and drop as specified in Story 2.4.4.",
+        "details": "1. Create a `FileDropzone` component:\n```typescript\nimport { useState, useCallback } from 'react';\nimport { useDropzone } from 'react-dropzone';\nimport { Upload, FileText, AlertCircle } from 'lucide-react';\nimport { useToast } from './ui/use-toast';\n\ninterface FileDropzoneProps {\n  onFileAccepted: (content: string, fileName: string) => void;\n  acceptedFileTypes?: string[];\n  maxSize?: number;\n}\n\nexport function FileDropzone({\n  onFileAccepted,\n  acceptedFileTypes = ['.sh', '.bash', '.bats'],\n  maxSize = 5 * 1024 * 1024, // 5MB\n}: FileDropzoneProps) {\n  const [isDragActive, setIsDragActive] = useState(false);\n  const { toast } = useToast();\n  \n  const onDrop = useCallback((acceptedFiles: File[], rejectedFiles: any[]) => {\n    // Handle rejected files\n    if (rejectedFiles.length > 0) {\n      const errors = rejectedFiles.map(rejection => {\n        const error = rejection.errors[0];\n        return `${rejection.file.name}: ${error.message}`;\n      });\n      \n      toast({\n        title: 'File upload failed',\n        description: errors.join('\\n'),\n        variant: 'destructive',\n      });\n      return;\n    }\n    \n    // Handle accepted files\n    if (acceptedFiles.length > 0) {\n      const file = acceptedFiles[0];\n      const reader = new FileReader();\n      \n      reader.onload = () => {\n        const content = reader.result as string;\n        onFileAccepted(content, file.name);\n        \n        toast({\n          title: 'File uploaded',\n          description: `${file.name} has been successfully uploaded.`,\n        });\n      };\n      \n      reader.onerror = () => {\n        toast({\n          title: 'Error reading file',\n          description: 'There was an error reading the file content.',\n          variant: 'destructive',\n        });\n      };\n      \n      reader.readAsText(file);\n    }\n  }, [onFileAccepted, toast]);\n  \n  const { getRootProps, getInputProps, isDragReject } = useDropzone({\n    onDrop,\n    accept: acceptedFileTypes.reduce((acc, type) => {\n      acc[type] = [];\n      return acc;\n    }, {} as Record<string, string[]>),\n    maxSize,\n    multiple: false,\n    onDragEnter: () => setIsDragActive(true),\n    onDragLeave: () => setIsDragActive(false),\n  });\n  \n  return (\n    <div\n      {...getRootProps()}\n      className={`border-2 border-dashed rounded-lg p-8 text-center transition-colors ${\n        isDragActive ? 'border-accent-blue bg-accent-blue/10' : 'border-gray-300'\n      } ${\n        isDragReject ? 'border-status-error bg-status-error/10' : ''\n      }`}\n    >\n      <input {...getInputProps()} />\n      <div className=\"flex flex-col items-center justify-center space-y-4\">\n        {isDragReject ? (\n          <>\n            <AlertCircle className=\"h-12 w-12 text-status-error\" />\n            <p>File type not supported</p>\n          </>\n        ) : (\n          <>\n            {isDragActive ? (\n              <Upload className=\"h-12 w-12 text-accent-blue\" />\n            ) : (\n              <FileText className=\"h-12 w-12 text-gray-400\" />\n            )}\n            <p>Drag and drop a script file here, or click to select a file</p>\n            <p className=\"text-sm text-gray-500\">\n              Supported file types: {acceptedFileTypes.join(', ')}\n            </p>\n          </>\n        )}\n      </div>\n    </div>\n  );\n}\n```\n2. Install react-dropzone:\n```bash\nnpm install react-dropzone\n```\n3. Integrate the `FileDropzone` component with script editing pages\n4. Add visual feedback for drag events (highlighting drop area)\n5. Implement file type validation (only accept script files)\n6. Add file size limits and validation\n7. Implement error handling for file reading failures\n8. Add success/failure toast notifications",
+        "testStrategy": "1. Test file dropping with various file types\n2. Verify that only accepted file types can be dropped\n3. Test file size validation\n4. Verify that visual feedback works correctly during drag events\n5. Test error handling for invalid files\n6. Verify that toast notifications appear for success and failure cases\n7. Test integration with script editing functionality",
+        "priority": "low",
+        "dependencies": [
+          4,
+          6
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Integrate FileDropzone Component with Script Editor",
+            "description": "Integrate the provided FileDropzone component into the script editor interface to allow users to upload script files via drag and drop.",
+            "dependencies": [],
+            "details": "1. Import the FileDropzone component into the script editor page\n2. Position the component appropriately in the editor layout\n3. Implement the onFileAccepted callback to update the editor content with the uploaded file\n4. Ensure the component is responsive and works well on different screen sizes\n5. Add appropriate aria labels and keyboard navigation for accessibility",
+            "status": "pending",
+            "testStrategy": "1. Test drag and drop functionality with valid script files\n2. Verify that the editor content updates correctly after file upload\n3. Test keyboard accessibility for users who cannot use drag and drop\n4. Verify component appearance and functionality across different screen sizes\n5. Test with screen readers to ensure accessibility"
+          },
+          {
+            "id": 2,
+            "title": "Implement File Type Validation and Error Handling",
+            "description": "Enhance the file validation logic to ensure only script files with appropriate extensions are accepted and provide clear error messages.",
+            "dependencies": [
+              "12.1"
+            ],
+            "details": "1. Refine the acceptedFileTypes configuration to properly validate file extensions\n2. Add MIME type validation as a secondary check where possible\n3. Create descriptive error messages for different validation failures\n4. Implement proper error handling for file reading failures\n5. Add unit tests for the validation logic",
+            "status": "pending",
+            "testStrategy": "1. Test uploading files with valid and invalid extensions\n2. Test uploading files with valid extensions but invalid content\n3. Test handling of corrupted files\n4. Verify error messages are clear and helpful\n5. Test edge cases like empty files and files at the maximum size limit"
+          },
+          {
+            "id": 3,
+            "title": "Enhance Visual Feedback for Drag and Drop Events",
+            "description": "Improve the visual feedback during drag and drop operations to provide a better user experience.",
+            "dependencies": [
+              "12.1"
+            ],
+            "details": "1. Refine the highlighting of the drop area during drag events\n2. Add subtle animations for drag enter/leave events\n3. Implement visual indicators for valid vs. invalid files during drag\n4. Add a loading state during file processing\n5. Ensure visual feedback is consistent with the application's design system",
+            "status": "pending",
+            "testStrategy": "1. Test visual feedback during drag events with valid and invalid files\n2. Verify that animations are smooth and not distracting\n3. Test with different browsers to ensure consistent behavior\n4. Verify that loading states display correctly during file processing\n5. Test with users who have motion sensitivity to ensure animations are not problematic"
+          },
+          {
+            "id": 4,
+            "title": "Implement Toast Notifications for Upload Events",
+            "description": "Configure and implement toast notifications to provide feedback for successful uploads and various error conditions.",
+            "dependencies": [
+              "12.1",
+              "12.2"
+            ],
+            "details": "1. Design and implement success toast notifications with appropriate styling\n2. Create distinct error toast notifications for different failure scenarios\n3. Ensure toast messages are clear, concise, and actionable\n4. Add appropriate icons to toast notifications to enhance visual communication\n5. Implement proper toast dismissal behavior and timing",
+            "status": "pending",
+            "testStrategy": "1. Test toast notifications appear for successful uploads\n2. Verify different error scenarios trigger appropriate toast messages\n3. Test toast appearance, positioning, and dismissal behavior\n4. Verify toast notifications are accessible and can be read by screen readers\n5. Test multiple sequential uploads to ensure toasts stack or replace correctly"
+          },
+          {
+            "id": 5,
+            "title": "Add File Size Validation and Progress Indicators",
+            "description": "Implement file size validation to prevent uploading excessively large files and add progress indicators for larger files.",
+            "dependencies": [
+              "12.1",
+              "12.2"
+            ],
+            "details": "1. Configure and test the maxSize parameter to limit file uploads to a reasonable size\n2. Add clear error messages for files exceeding the size limit\n3. Implement a progress indicator for file reading operations\n4. Add file size information to success notifications\n5. Document the file size limitations in user-facing help text",
+            "status": "pending",
+            "testStrategy": "1. Test uploading files of various sizes including those exceeding the limit\n2. Verify that progress indicators display correctly for larger files\n3. Test cancellation of uploads during the reading process\n4. Verify that file size information is correctly displayed in notifications\n5. Test with slow network connections to ensure progress indicators function properly"
+          }
+        ]
+      },
+      {
+        "id": 13,
+        "title": "Implement Real-time Security Script Search and Autocomplete",
+        "description": "Create a sophisticated search interface with real-time suggestions and autocomplete as specified in Story 2.4.5.",
+        "details": "1. Create a `SearchInput` component with autocomplete functionality:\n```typescript\nimport { useState, useEffect, useRef } from 'react';\nimport { Input } from './ui/input';\nimport { Search, X, History, Tag } from 'lucide-react';\nimport { useDebounce } from '../hooks/useDebounce';\nimport { useGetSearchSuggestionsQuery } from '../services/api';\nimport { useSearchHistory } from '../hooks/useSearchHistory';\n\ninterface SearchSuggestion {\n  id: string;\n  title: string;\n  description: string;\n  category: string;\n  type: 'template' | 'custom' | 'ai-generated';\n  highlightedTitle?: string;\n  highlightedDescription?: string;\n}\n\ninterface SearchInputProps {\n  onSearch: (query: string) => void;\n  onSelectSuggestion: (suggestion: SearchSuggestion) => void;\n  placeholder?: string;\n}\n\nexport function SearchInput({\n  onSearch,\n  onSelectSuggestion,\n  placeholder = 'Search for scripts...',\n}: SearchInputProps) {\n  const [query, setQuery] = useState('');\n  const [showSuggestions, setShowSuggestions] = useState(false);\n  const [selectedIndex, setSelectedIndex] = useState(-1);\n  const inputRef = useRef<HTMLInputElement>(null);\n  const suggestionsRef = useRef<HTMLDivElement>(null);\n  \n  const debouncedQuery = useDebounce(query, 300);\n  const { searchHistory, addToHistory, clearHistory } = useSearchHistory();\n  \n  const { data: suggestions = [], isLoading } = useGetSearchSuggestionsQuery(\n    { query: debouncedQuery },\n    { skip: debouncedQuery.length < 2 }\n  );\n  \n  // Close suggestions when clicking outside\n  useEffect(() => {\n    const handleClickOutside = (event: MouseEvent) => {\n      if (\n        suggestionsRef.current &&\n        !suggestionsRef.current.contains(event.target as Node) &&\n        !inputRef.current?.contains(event.target as Node)\n      ) {\n        setShowSuggestions(false);\n      }\n    };\n    \n    document.addEventListener('mousedown', handleClickOutside);\n    return () => document.removeEventListener('mousedown', handleClickOutside);\n  }, []);\n  \n  // Handle keyboard navigation\n  const handleKeyDown = (e: React.KeyboardEvent) => {\n    if (!showSuggestions) return;\n    \n    switch (e.key) {\n      case 'ArrowDown':\n        e.preventDefault();\n        setSelectedIndex(prev => \n          prev < suggestions.length - 1 ? prev + 1 : prev\n        );\n        break;\n      case 'ArrowUp':\n        e.preventDefault();\n        setSelectedIndex(prev => (prev > 0 ? prev - 1 : 0));\n        break;\n      case 'Enter':\n        if (selectedIndex >= 0 && selectedIndex < suggestions.length) {\n          handleSelectSuggestion(suggestions[selectedIndex]);\n        } else {\n          handleSearch();\n        }\n        break;\n      case 'Escape':\n        setShowSuggestions(false);\n        break;\n    }\n  };\n  \n  const handleSearch = () => {\n    if (query.trim()) {\n      onSearch(query);\n      addToHistory(query);\n      setShowSuggestions(false);\n    }\n  };\n  \n  const handleSelectSuggestion = (suggestion: SearchSuggestion) => {\n    onSelectSuggestion(suggestion);\n    setQuery(suggestion.title);\n    addToHistory(suggestion.title);\n    setShowSuggestions(false);\n  };\n  \n  const handleClearInput = () => {\n    setQuery('');\n    setShowSuggestions(false);\n    inputRef.current?.focus();\n  };\n  \n  return (\n    <div className=\"relative w-full\">\n      <div className=\"relative\">\n        <Input\n          ref={inputRef}\n          type=\"text\"\n          value={query}\n          onChange={(e) => {\n            setQuery(e.target.value);\n            if (e.target.value.length >= 2) {\n              setShowSuggestions(true);\n            } else {\n              setShowSuggestions(false);\n            }\n          }}\n          onFocus={() => query.length >= 2 && setShowSuggestions(true)}\n          onKeyDown={handleKeyDown}\n          placeholder={placeholder}\n          className=\"pl-10 pr-10\"\n        />\n        <Search className=\"absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400\" />\n        {query && (\n          <button\n            onClick={handleClearInput}\n            className=\"absolute right-3 top-1/2 -translate-y-1/2\"\n          >\n            <X className=\"h-4 w-4 text-gray-400\" />\n          </button>\n        )}\n      </div>\n      \n      {showSuggestions && (\n        <div\n          ref={suggestionsRef}\n          className=\"absolute z-10 w-full mt-1 bg-primary-surface border border-gray-700 rounded-md shadow-lg max-h-80 overflow-y-auto\"\n        >\n          {/* Recent searches */}\n          {searchHistory.length > 0 && debouncedQuery.length < 2 && (\n            <div className=\"p-2\">\n              <div className=\"flex items-center justify-between\">\n                <p className=\"text-sm font-medium text-gray-400\">Recent Searches</p>\n                <button\n                  onClick={clearHistory}\n                  className=\"text-xs text-accent-blue hover:underline\"\n                >\n                  Clear\n                </button>\n              </div>\n              <div className=\"flex flex-wrap gap-2 mt-2\">\n                {searchHistory.map((item, index) => (\n                  <button\n                    key={`history-${index}`}\n                    onClick={() => {\n                      setQuery(item);\n                      onSearch(item);\n                      setShowSuggestions(false);\n                    }}\n                    className=\"flex items-center gap-1 px-2 py-1 text-sm bg-gray-700 rounded-md hover:bg-gray-600\"\n                  >\n                    <History className=\"h-3 w-3\" />\n                    {item}\n                  </button>\n                ))}\n              </div>\n            </div>\n          )}\n          \n          {/* Search suggestions */}\n          {isLoading ? (\n            <div className=\"p-4 text-center text-gray-400\">Loading...</div>\n          ) : suggestions.length > 0 ? (\n            <ul>\n              {suggestions.map((suggestion, index) => (\n                <li\n                  key={suggestion.id}\n                  className={`p-3 cursor-pointer hover:bg-gray-700 ${index === selectedIndex ? 'bg-gray-700' : ''}`}\n                  onClick={() => handleSelectSuggestion(suggestion)}\n                >\n                  <div className=\"flex items-start gap-3\">\n                    <div className=\"flex-1\">\n                      <p className=\"font-medium\">\n                        {suggestion.highlightedTitle ? (\n                          <span dangerouslySetInnerHTML={{ __html: suggestion.highlightedTitle }} />\n                        ) : (\n                          suggestion.title\n                        )}\n                      </p>\n                      <p className=\"text-sm text-gray-400 mt-1\">\n                        {suggestion.highlightedDescription ? (\n                          <span dangerouslySetInnerHTML={{ __html: suggestion.highlightedDescription }} />\n                        ) : (\n                          suggestion.description\n                        )}\n                      </p>\n                    </div>\n                    <div className=\"flex items-center gap-2\">\n                      <span className=\"px-2 py-1 text-xs bg-gray-700 rounded-md flex items-center gap-1\">\n                        <Tag className=\"h-3 w-3\" />\n                        {suggestion.category}\n                      </span>\n                    </div>\n                  </div>\n                </li>\n              ))}\n            </ul>\n          ) : debouncedQuery.length >= 2 ? (\n            <div className=\"p-4 text-center text-gray-400\">No results found</div>\n          ) : null}\n        </div>\n      )}\n    </div>\n  );\n}\n```\n2. Create a custom hook for managing search history:\n```typescript\nimport { useState, useEffect } from 'react';\n\nconst HISTORY_KEY = 'search_history';\nconst MAX_HISTORY_ITEMS = 20;\n\nexport function useSearchHistory() {\n  const [searchHistory, setSearchHistory] = useState<string[]>(() => {\n    const savedHistory = localStorage.getItem(HISTORY_KEY);\n    return savedHistory ? JSON.parse(savedHistory) : [];\n  });\n  \n  useEffect(() => {\n    localStorage.setItem(HISTORY_KEY, JSON.stringify(searchHistory));\n  }, [searchHistory]);\n  \n  const addToHistory = (query: string) => {\n    if (!query.trim()) return;\n    \n    setSearchHistory(prev => {\n      // Remove if already exists\n      const filtered = prev.filter(item => item !== query);\n      // Add to the beginning and limit to MAX_HISTORY_ITEMS\n      return [query, ...filtered].slice(0, MAX_HISTORY_ITEMS);\n    });\n  };\n  \n  const clearHistory = () => {\n    setSearchHistory([]);\n    localStorage.removeItem(HISTORY_KEY);\n  };\n  \n  return { searchHistory, addToHistory, clearHistory };\n}\n```\n3. Create a debounce hook for search input:\n```typescript\nimport { useState, useEffect } from 'react';\n\nexport function useDebounce<T>(value: T, delay: number): T {\n  const [debouncedValue, setDebouncedValue] = useState<T>(value);\n  \n  useEffect(() => {\n    const handler = setTimeout(() => {\n      setDebouncedValue(value);\n    }, delay);\n    \n    return () => {\n      clearTimeout(handler);\n    };\n  }, [value, delay]);\n  \n  return debouncedValue;\n}\n```\n4. Implement API endpoint for search suggestions in RTK Query\n5. Add highlighting of matching text in search results\n6. Implement keyboard navigation for search suggestions\n7. Add search history functionality with local storage persistence\n8. Implement category and type filtering for search results",
+        "testStrategy": "1. Test search input with debounce functionality\n2. Verify that search suggestions appear after typing at least 2 characters\n3. Test keyboard navigation (arrow keys, Enter, Escape)\n4. Verify that search history is correctly stored and displayed\n5. Test highlighting of matching text in search results\n6. Test category and type filtering\n7. Verify that search suggestions are limited to 10 items\n8. Test integration with the main search functionality",
+        "priority": "medium",
+        "dependencies": [
+          2,
+          4,
+          5
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Implement API endpoint for search suggestions",
+            "description": "Create RTK Query endpoint for fetching search suggestions from the backend API with proper typing and error handling",
+            "dependencies": [],
+            "details": "Implement the RTK Query endpoint in services/api.ts that will handle fetching search suggestions based on user input. Include proper TypeScript interfaces for request/response types, error handling, and caching configuration. The endpoint should support filtering by category and type, and should return highlighted matches in the results.",
+            "status": "pending",
+            "testStrategy": "Test the API endpoint with mock server responses, verify proper error handling for network failures, test caching behavior, and ensure the endpoint correctly handles different response formats"
+          },
+          {
+            "id": 2,
+            "title": "Implement text highlighting in search results",
+            "description": "Create utility functions to highlight matching text in search results and render them safely in the UI",
+            "dependencies": [
+              "13.1"
+            ],
+            "details": "Develop utility functions that can parse the API response and highlight matching text segments in search results. Implement safe HTML rendering for highlighted text using dangerouslySetInnerHTML with proper sanitization. The highlighting should work for both title and description fields and should be visually distinct.",
+            "status": "pending",
+            "testStrategy": "Test highlighting with various search terms and edge cases, verify HTML sanitization is working correctly, test performance with large result sets, and ensure accessibility is maintained with highlighted text"
+          },
+          {
+            "id": 3,
+            "title": "Implement keyboard navigation for search suggestions",
+            "description": "Add keyboard navigation support for the search suggestions dropdown, including arrow keys, Enter, and Escape functionality",
+            "dependencies": [],
+            "details": "Enhance the SearchInput component with keyboard navigation support. Implement handlers for arrow up/down to navigate through suggestions, Enter to select the highlighted suggestion or perform search, and Escape to close the suggestions dropdown. Ensure proper focus management and accessibility.",
+            "status": "pending",
+            "testStrategy": "Test keyboard navigation with various key combinations, verify focus management works correctly, test with screen readers for accessibility, and ensure keyboard shortcuts don't conflict with browser defaults"
+          },
+          {
+            "id": 4,
+            "title": "Implement search history functionality",
+            "description": "Complete the search history feature with local storage persistence, including adding, displaying, and clearing history items",
+            "dependencies": [],
+            "details": "Finalize the useSearchHistory hook to properly store and retrieve search history from localStorage. Implement the UI for displaying recent searches when the search input is focused but has less than 2 characters. Add functionality to clear individual history items and the entire history.",
+            "status": "pending",
+            "testStrategy": "Test persistence across page reloads, verify history limit enforcement, test clearing functionality, and ensure history items are correctly ordered with most recent first"
+          },
+          {
+            "id": 5,
+            "title": "Implement category and type filtering for search",
+            "description": "Add filtering capabilities to the search interface to allow users to filter results by category and script type",
+            "dependencies": [
+              "13.1",
+              "13.2"
+            ],
+            "details": "Extend the SearchInput component to support filtering by category (e.g., 'Security', 'Compliance') and script type ('template', 'custom', 'ai-generated'). Add UI elements for selecting filters and update the API query parameters accordingly. Implement visual indicators for active filters and the ability to clear filters.",
+            "status": "pending",
+            "testStrategy": "Test filter combinations for expected results, verify filter state persistence, test filter UI for usability and accessibility, and ensure filters correctly modify the API requests"
+          }
+        ]
+      },
+      {
+        "id": 14,
+        "title": "Implement Error Handling and Notifications System",
+        "description": "Create a comprehensive error handling and notifications system to provide feedback to users about API requests, validation errors, and system status.",
+        "details": "1. Create a Toast notification system using shadcn/ui:\n```bash\nnpx shadcn-ui@latest add toast\n```\n2. Create a global error handling middleware for API requests:\n```typescript\nimport { isRejectedWithValue, Middleware } from '@reduxjs/toolkit';\nimport { toast } from '../components/ui/use-toast';\n\nexport const errorMiddleware: Middleware = () => (next) => (action) => {\n  // RTK Query uses `createAsyncThunk` from redux-toolkit under the hood, so we're able to utilize these matchers\n  if (isRejectedWithValue(action)) {\n    const { payload, error } = action;\n    \n    // Handle different error types\n    if (payload?.status === 401) {\n      toast({\n        title: 'Authentication Error',\n        description: 'Your session has expired. Please log in again.',\n        variant: 'destructive',\n      });\n      // Redirect to login page or refresh token\n    } else if (payload?.status === 403) {\n      toast({\n        title: 'Permission Denied',\n        description: 'You do not have permission to perform this action.',\n        variant: 'destructive',\n      });\n    } else if (payload?.status === 404) {\n      toast({\n        title: 'Not Found',\n        description: 'The requested resource was not found.',\n        variant: 'destructive',\n      });\n    } else if (payload?.status >= 500) {\n      toast({\n        title: 'Server Error',\n        description: 'Something went wrong on our end. Please try again later.',\n        variant: 'destructive',\n      });\n    } else {\n      // Generic error message\n      toast({\n        title: 'Error',\n        description: payload?.data?.message || error?.message || 'An unexpected error occurred.',\n        variant: 'destructive',\n      });\n    }\n  }\n  \n  return next(action);\n};\n```\n3. Add the error middleware to the Redux store:\n```typescript\nimport { errorMiddleware } from './middleware/errorMiddleware';\n\nexport const store = configureStore({\n  reducer: { /* ... */ },\n  middleware: (getDefaultMiddleware) =>\n    getDefaultMiddleware().concat(api.middleware, errorMiddleware),\n});\n```\n4. Create a network status detector:\n```typescript\nimport { useEffect } from 'react';\nimport { useDispatch } from 'react-redux';\nimport { setOnline } from '../store/slices/uiSlice';\nimport { toast } from '../components/ui/use-toast';\n\nexport function NetworkStatusDetector() {\n  const dispatch = useDispatch();\n  \n  useEffect(() => {\n    const handleOnline = () => {\n      dispatch(setOnline(true));\n      toast({\n        title: 'You are back online',\n        description: 'Your connection has been restored.',\n      });\n    };\n    \n    const handleOffline = () => {\n      dispatch(setOnline(false));\n      toast({\n        title: 'You are offline',\n        description: 'Please check your internet connection.',\n        variant: 'destructive',\n      });\n    };\n    \n    window.addEventListener('online', handleOnline);\n    window.addEventListener('offline', handleOffline);\n    \n    return () => {\n      window.removeEventListener('online', handleOnline);\n      window.removeEventListener('offline', handleOffline);\n    };\n  }, [dispatch]);\n  \n  return null;\n}\n```\n5. Create a form validation error handler using Zod and React Hook Form:\n```typescript\nimport { zodResolver } from '@hookform/resolvers/zod';\nimport { useForm } from 'react-hook-form';\nimport { z } from 'zod';\n\n// Example schema\nconst formSchema = z.object({\n  title: z.string().min(3, 'Title must be at least 3 characters'),\n  description: z.string().optional(),\n  parameters: z.record(z.string(), z.any()),\n});\n\ntype FormValues = z.infer<typeof formSchema>;\n\nexport function ScriptForm() {\n  const form = useForm<FormValues>({\n    resolver: zodResolver(formSchema),\n    defaultValues: {\n      title: '',\n      description: '',\n      parameters: {},\n    },\n  });\n  \n  const onSubmit = (values: FormValues) => {\n    // Submit form data\n  };\n  \n  return (\n    <form onSubmit={form.handleSubmit(onSubmit)}>\n      {/* Form fields */}\n    </form>\n  );\n}\n```\n6. Implement loading indicators for API requests:\n```typescript\nimport { Loader2 } from 'lucide-react';\nimport { Button } from './ui/button';\n\ninterface LoadingButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {\n  isLoading: boolean;\n  children: React.ReactNode;\n}\n\nexport function LoadingButton({ isLoading, children, ...props }: LoadingButtonProps) {\n  return (\n    <Button disabled={isLoading} {...props}>\n      {isLoading ? (\n        <>\n          <Loader2 className=\"mr-2 h-4 w-4 animate-spin\" />\n          Loading...\n        </>\n      ) : (\n        children\n      )}\n    </Button>\n  );\n}\n```\n7. Create a global error boundary component:\n```typescript\nimport { Component, ErrorInfo, ReactNode } from 'react';\n\ninterface ErrorBoundaryProps {\n  children: ReactNode;\n  fallback: ReactNode;\n}\n\ninterface ErrorBoundaryState {\n  hasError: boolean;\n  error: Error | null;\n}\n\nexport class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {\n  constructor(props: ErrorBoundaryProps) {\n    super(props);\n    this.state = { hasError: false, error: null };\n  }\n  \n  static getDerivedStateFromError(error: Error): ErrorBoundaryState {\n    return { hasError: true, error };\n  }\n  \n  componentDidCatch(error: Error, errorInfo: ErrorInfo): void {\n    console.error('Error caught by ErrorBoundary:', error, errorInfo);\n    // Log to error reporting service\n  }\n  \n  render(): ReactNode {\n    if (this.state.hasError) {\n      return this.props.fallback;\n    }\n    \n    return this.props.children;\n  }\n}\n```",
+        "testStrategy": "1. Test toast notifications for different error types\n2. Verify that API errors are correctly handled and displayed\n3. Test network status detection (online/offline)\n4. Verify that form validation errors are displayed correctly\n5. Test loading indicators for API requests\n6. Verify that the error boundary catches and displays component errors\n7. Test integration with the Redux store and middleware",
+        "priority": "high",
+        "dependencies": [
+          2,
+          4
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Implement Toast Notification System",
+            "description": "Set up the shadcn/ui toast component and create reusable toast utility functions for different notification types.",
+            "dependencies": [],
+            "details": "Install the shadcn/ui toast component using the CLI command. Create wrapper functions for common notification types (success, error, warning, info) with consistent styling. Implement a ToastProvider at the application root to ensure notifications are available globally.",
+            "status": "pending",
+            "testStrategy": "Test toast rendering with different message types. Verify toast appearance, duration, and dismissal functionality. Ensure toast notifications are accessible and properly announced to screen readers."
+          },
+          {
+            "id": 2,
+            "title": "Create Global Error Handling Middleware",
+            "description": "Implement Redux middleware to intercept API errors and display appropriate toast notifications based on error types.",
+            "dependencies": [
+              "14.1"
+            ],
+            "details": "Develop the error middleware to handle different HTTP status codes (401, 403, 404, 500, etc.) with appropriate user-friendly messages. Add logic for authentication errors that may require redirects. Integrate the middleware with the Redux store configuration.",
+            "status": "pending",
+            "testStrategy": "Test middleware with mocked API responses for different error scenarios. Verify correct toast messages appear for each error type. Test authentication error handling and redirect behavior."
+          },
+          {
+            "id": 3,
+            "title": "Implement Network Status Detection",
+            "description": "Create a component to monitor network connectivity and notify users when they go offline or come back online.",
+            "dependencies": [
+              "14.1"
+            ],
+            "details": "Develop the NetworkStatusDetector component that uses browser online/offline events. Update the Redux store with the current network status. Display appropriate toast notifications when network status changes. Add the component to the application layout.",
+            "status": "pending",
+            "testStrategy": "Test online/offline event handling using browser dev tools. Verify correct toast notifications appear when network status changes. Ensure the Redux store is properly updated with network status."
+          },
+          {
+            "id": 4,
+            "title": "Create Form Validation Error Handler",
+            "description": "Implement a standardized approach for form validation using Zod and React Hook Form with consistent error display.",
+            "dependencies": [
+              "14.1"
+            ],
+            "details": "Set up Zod schemas for common form validations. Create reusable form components that integrate with React Hook Form and the zodResolver. Implement consistent error message display for form fields. Add support for displaying server-side validation errors returned from API calls.",
+            "status": "pending",
+            "testStrategy": "Test form validation with valid and invalid inputs. Verify error messages appear in the correct locations. Test server-side validation error display. Ensure validation errors are properly announced to screen readers."
+          },
+          {
+            "id": 5,
+            "title": "Implement Error Boundary and Loading Indicators",
+            "description": "Create global error boundary components and standardized loading indicators for API requests and page transitions.",
+            "dependencies": [
+              "14.2"
+            ],
+            "details": "Develop an ErrorBoundary component to catch and display runtime errors. Create fallback UI components for different error scenarios. Implement loading indicators including the LoadingButton component for form submissions. Add global loading indicators for page transitions and API requests using React Suspense where applicable.",
+            "status": "pending",
+            "testStrategy": "Test error boundary by triggering intentional errors. Verify fallback UI appears correctly. Test loading indicators during API requests and page transitions. Ensure loading states are properly communicated to screen readers."
+          }
+        ]
+      },
+      {
+        "id": 15,
+        "title": "Implement Responsive Design and Accessibility Features",
+        "description": "Ensure the application is fully responsive across different screen sizes and meets WCAG 2.1 Level AA accessibility standards.",
+        "details": "1. Create responsive layout components using Tailwind CSS:\n```typescript\nimport { cn } from '../lib/utils';\n\ninterface ContainerProps {\n  children: React.ReactNode;\n  className?: string;\n}\n\nexport function Container({ children, className }: ContainerProps) {\n  return (\n    <div className={cn('mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8', className)}>\n      {children}\n    </div>\n  );\n}\n```\n2. Implement responsive design for all pages using Tailwind's responsive modifiers:\n```html\n<div className=\"grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4\">\n  <!-- Content -->\n</div>\n```\n3. Add keyboard navigation support for all interactive elements:\n```typescript\nimport { useRef, useEffect } from 'react';\n\nexport function useFocusTrap(active: boolean = true) {\n  const elRef = useRef<HTMLDivElement>(null);\n  \n  useEffect(() => {\n    if (!active) return;\n    \n    const el = elRef.current;\n    if (!el) return;\n    \n    const focusableElements = el.querySelectorAll(\n      'button, [href], input, select, textarea, [tabindex]:not([tabindex=\"-1\"])'\n    );\n    \n    if (focusableElements.length === 0) return;\n    \n    const firstElement = focusableElements[0] as HTMLElement;\n    const lastElement = focusableElements[focusableElements.length - 1] as HTMLElement;\n    \n    const handleKeyDown = (e: KeyboardEvent) => {\n      if (e.key !== 'Tab') return;\n      \n      if (e.shiftKey) {\n        if (document.activeElement === firstElement) {\n          lastElement.focus();\n          e.preventDefault();\n        }\n      } else {\n        if (document.activeElement === lastElement) {\n          firstElement.focus();\n          e.preventDefault();\n        }\n      }\n    };\n    \n    el.addEventListener('keydown', handleKeyDown);\n    return () => el.removeEventListener('keydown', handleKeyDown);\n  }, [active]);\n  \n  return elRef;\n}\n```\n4. Add ARIA attributes to all components:\n```typescript\n<button\n  aria-label=\"Copy code to clipboard\"\n  aria-pressed={copied}\n  onClick={handleCopy}\n>\n  {copied ? 'Copied!' : 'Copy'}\n</button>\n```\n5. Implement color contrast checking:\n```typescript\nimport { useEffect } from 'react';\n\nexport function useContrastCheck() {\n  useEffect(() => {\n    const checkContrast = () => {\n      const elements = document.querySelectorAll('*');\n      let issues = 0;\n      \n      elements.forEach(el => {\n        const style = window.getComputedStyle(el);\n        const color = style.color;\n        const bgColor = style.backgroundColor;\n        \n        // Simple contrast check (would use a proper library in production)\n        if (color === bgColor) {\n          console.warn('Contrast issue detected:', el);\n          issues++;\n        }\n      });\n      \n      if (issues > 0) {\n        console.warn(`${issues} contrast issues detected`);\n      }\n    };\n    \n    // Only run in development\n    if (process.env.NODE_ENV === 'development') {\n      checkContrast();\n    }\n  }, []);\n}\n```\n6. Add skip-to-content link for screen readers:\n```typescript\nexport function SkipToContent() {\n  return (\n    <a\n      href=\"#main-content\"\n      className=\"sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:p-4 focus:bg-primary-surface focus:text-text-primary\"\n    >\n      Skip to content\n    </a>\n  );\n}\n```\n7. Implement responsive images with appropriate alt text:\n```typescript\ninterface ResponsiveImageProps {\n  src: string;\n  alt: string;\n  sizes?: string;\n  className?: string;\n}\n\nexport function ResponsiveImage({\n  src,\n  alt,\n  sizes = '100vw',\n  className,\n}: ResponsiveImageProps) {\n  return (\n    <img\n      src={src}\n      alt={alt}\n      sizes={sizes}\n      className={cn('w-full h-auto', className)}\n      loading=\"lazy\"\n    />\n  );\n}\n```\n8. Add internationalization support using i18next:\n```bash\nnpm install i18next react-i18next i18next-browser-languagedetector\n```\n9. Configure i18next in the application:\n```typescript\nimport i18n from 'i18next';\nimport { initReactI18next } from 'react-i18next';\nimport LanguageDetector from 'i18next-browser-languagedetector';\n\ni18n\n  .use(LanguageDetector)\n  .use(initReactI18next)\n  .init({\n    resources: {\n      en: {\n        translation: {\n          // English translations\n        },\n      },\n      ko: {\n        translation: {\n          // Korean translations\n        },\n      },\n    },\n    fallbackLng: 'en',\n    interpolation: {\n      escapeValue: false,\n    },\n  });\n\nexport default i18n;\n```",
+        "testStrategy": "1. Test responsive layout on different screen sizes (mobile, tablet, desktop)\n2. Verify that all interactive elements are keyboard accessible\n3. Test with screen readers (NVDA, VoiceOver) to ensure proper navigation\n4. Verify that all images have appropriate alt text\n5. Test color contrast using automated tools (axe-core)\n6. Verify that the skip-to-content link works correctly\n7. Test internationalization with different languages\n8. Run accessibility audit using Lighthouse or similar tools to verify WCAG 2.1 Level AA compliance",
+        "priority": "high",
+        "dependencies": [
+          4
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Implement Responsive Layout Components",
+            "description": "Create and enhance responsive layout components using Tailwind CSS, including containers, grids, and flexible layouts that adapt to different screen sizes.",
+            "dependencies": [],
+            "details": "Develop a comprehensive set of responsive layout components including Container, Grid, and Flex components. Ensure all components use Tailwind's responsive modifiers (sm:, md:, lg:, xl:) appropriately. Create a responsive navigation component that collapses to a hamburger menu on mobile. Implement responsive spacing utilities that adjust padding and margins based on screen size. Document usage examples for all responsive components in Storybook or equivalent.",
+            "status": "pending",
+            "testStrategy": "Test all components across multiple viewport sizes (320px, 768px, 1024px, 1440px). Verify breakpoint transitions are smooth without layout shifts. Use Chrome DevTools device emulation to test on common device sizes. Validate that content remains readable and accessible at all breakpoints. Perform manual testing on actual mobile devices."
+          },
+          {
+            "id": 2,
+            "title": "Implement Keyboard Navigation and Focus Management",
+            "description": "Enhance the application with proper keyboard navigation support, focus management, and focus trapping for modal dialogs and other interactive components.",
+            "dependencies": [],
+            "details": "Refine the useFocusTrap hook to handle complex UI patterns. Implement keyboard shortcuts for common actions with a keyboard shortcut helper. Add visible focus indicators that meet WCAG 2.1 requirements (2.4.7). Ensure all interactive elements can be accessed and operated with keyboard only. Implement proper focus management when elements appear or disappear from the DOM. Add skip navigation links for keyboard users to bypass repetitive content.",
+            "status": "pending",
+            "testStrategy": "Test all interactive elements with keyboard-only navigation. Verify focus trapping works correctly in modals and drawers. Test with screen readers to ensure focus changes are properly announced. Validate that focus indicators are visible and meet contrast requirements. Test keyboard shortcuts for conflicts and proper operation."
+          },
+          {
+            "id": 3,
+            "title": "Add ARIA Attributes and Screen Reader Support",
+            "description": "Implement proper ARIA attributes, roles, and states throughout the application to ensure screen reader compatibility and improve accessibility for visually impaired users.",
+            "dependencies": [],
+            "details": "Audit and add appropriate ARIA attributes (aria-label, aria-labelledby, aria-describedby, etc.) to all interactive components. Implement proper ARIA roles for custom components that don't use semantic HTML. Add aria-live regions for dynamic content updates. Create accessible form components with proper labels, error messages, and validation feedback. Implement status messages that are announced to screen readers. Ensure all icons and visual indicators have text alternatives.",
+            "status": "pending",
+            "testStrategy": "Test with NVDA and VoiceOver screen readers to verify proper announcements. Use accessibility audit tools like axe-core to identify missing ARIA attributes. Validate that all form errors are properly announced to screen readers. Test dynamic content updates to ensure they're properly announced. Verify that all interactive elements have accessible names."
+          },
+          {
+            "id": 4,
+            "title": "Implement Color Contrast and Visual Accessibility",
+            "description": "Ensure the application meets WCAG 2.1 Level AA color contrast requirements and implement features to improve visual accessibility for users with visual impairments.",
+            "dependencies": [],
+            "details": "Enhance the contrast checking utility to provide more accurate results using the WCAG contrast algorithm. Create a theme system that ensures all color combinations meet AA contrast requirements (4.5:1 for normal text, 3:1 for large text). Implement a high contrast mode option. Ensure all UI states (hover, focus, active, disabled) have sufficient contrast. Add support for user preferences like reduced motion and color scheme preferences using prefers-reduced-motion and prefers-color-scheme media queries. Ensure text can be resized up to 200% without loss of content or functionality.",
+            "status": "pending",
+            "testStrategy": "Use WebAIM's contrast checker to verify all color combinations. Test with color blindness simulators (protanopia, deuteranopia, tritanopia). Verify the application is usable with browser zoom at 200%. Test with browser high contrast modes and custom user stylesheets. Validate that all interactive states are perceivable without relying on color alone."
+          },
+          {
+            "id": 5,
+            "title": "Implement Internationalization and Localization Support",
+            "description": "Set up internationalization (i18n) infrastructure using i18next to support multiple languages and implement localization features for improved global accessibility.",
+            "dependencies": [
+              "15.3"
+            ],
+            "details": "Complete the i18next setup with proper namespaces for different sections of the application. Implement language detection and switching functionality. Create translation files for at least two languages (English and Korean as specified). Add RTL (right-to-left) support for languages that require it. Ensure all date, time, number, and currency formats respect the user's locale. Implement a translation management workflow for adding new strings. Ensure all ARIA attributes and alt texts are properly translated.",
+            "status": "pending",
+            "testStrategy": "Test language switching functionality to verify all UI elements update correctly. Verify that RTL layouts display correctly in supported languages. Test with pseudo-localization to identify hard-coded strings. Validate that date, time, and number formats change appropriately with locale. Test screen reader pronunciation of translated content. Verify that the application respects the user's browser language settings."
+          }
+        ]
+      }
+    ],
+    "metadata": {
+      "created": "2025-08-05T08:55:42.529Z",
+      "updated": "2025-08-05T08:55:42.529Z",
+      "description": "Tasks for master context"
+    }
+  }
+}
