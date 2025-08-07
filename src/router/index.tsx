@@ -36,7 +36,7 @@ function AuthenticatedApp() {
         },
         {
           path: 'scripts',
-          element: <ScriptEditor />,
+          element: <ScriptNew />,
         },
         {
           path: 'scripts/new',
