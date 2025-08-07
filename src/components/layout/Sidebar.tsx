@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { 
   LayoutDashboard, 
   FileText, 
@@ -89,15 +90,11 @@ interface NavigationItemProps {
   };
   collapsed: boolean;
   isActive: boolean;
+  navigate: (path: string) => void;
 }
 
-function NavigationItem({ item, collapsed, isActive }: NavigationItemProps) {
+function NavigationItem({ item, collapsed, isActive, navigate }: NavigationItemProps) {
   const Icon = item.icon;
-  
-  const navigate = (path: string) => {
-    window.history.pushState({}, '', path);
-    window.dispatchEvent(new Event('popstate'));
-  };
   
   const content = (
     <button
@@ -164,9 +161,11 @@ function NavigationItem({ item, collapsed, isActive }: NavigationItemProps) {
 export default function Sidebar() {
   const dispatch = useAppDispatch();
   const collapsed = useSidebarCollapsed();
+  const navigate = useNavigate();
+  const location = useLocation();
   
   const getCurrentPath = () => {
-    const path = window.location.pathname;
+    const path = location.pathname;
     return path === '/' ? '/dashboard' : path;
   };
 
@@ -224,6 +223,7 @@ export default function Sidebar() {
                     item={item}
                     collapsed={false}
                     isActive={getCurrentPath() === item.href}
+                    navigate={navigate}
                   />
                 ))}
               </div>
@@ -246,6 +246,7 @@ export default function Sidebar() {
                   item={item}
                   collapsed={collapsed}
                   isActive={getCurrentPath() === item.href}
+                  navigate={navigate}
                 />
               ))}
             </div>
@@ -267,6 +268,7 @@ export default function Sidebar() {
                   item={item}
                   collapsed={collapsed}
                   isActive={getCurrentPath() === item.href}
+                  navigate={navigate}
                 />
               ))}
             </div>
@@ -283,6 +285,7 @@ export default function Sidebar() {
               }}
               collapsed={collapsed}
               isActive={getCurrentPath() === '/settings'}
+              navigate={navigate}
             />
           </div>
         </div>
