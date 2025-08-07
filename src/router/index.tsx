@@ -7,6 +7,7 @@ import Layout from '../components/layout/Layout';
 import Login from '../pages/Login';
 import Dashboard from '../pages/Dashboard';
 import ScriptEditor from '../pages/ScriptEditor';
+import ScriptNew from '../pages/ScriptNew';
 import TemplateLibrary from '../pages/TemplateLibrary';
 import TestResults from '../pages/TestResults';
 import NotFound from '../pages/NotFound';
@@ -35,6 +36,14 @@ function AuthenticatedApp() {
         },
         {
           path: 'scripts',
+          element: <ScriptEditor />,
+        },
+        {
+          path: 'scripts/new',
+          element: <ScriptNew />,
+        },
+        {
+          path: 'scripts/editor',
           element: <ScriptEditor />,
         },
         {
