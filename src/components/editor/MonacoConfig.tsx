@@ -339,7 +339,11 @@ export function initializeMonacoEditor() {
   // Set up global editor settings
   monaco.editor.setTheme('ncuscript-dark');
 
-  // Configure global settings
+  // Configure global settings for performance optimization
+  monaco.editor.setModelLanguage.defaults?.setDiagnosticsOptions?.({
+    noSemanticValidation: true,
+    noSyntaxValidation: false
+  });
   monaco.editor.defineTheme('ncuscript-light', {
     base: 'vs',
     inherit: true,

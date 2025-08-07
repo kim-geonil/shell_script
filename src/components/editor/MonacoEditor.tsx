@@ -69,12 +69,17 @@ export default function MonacoEditor({
           automaticLayout: true,
           fontSize: 14,
           lineNumbers: 'on',
-          minimap: { enabled: true },
+          minimap: { enabled: false }, // 메모리 오류 방지를 위해 minimap 비활성화
           wordWrap: 'on',
           scrollBeyondLastLine: false,
           renderWhitespace: 'selection',
           tabSize: 2,
-          insertSpaces: true
+          insertSpaces: true,
+          // 추가 최적화 설정
+          overviewRulerLanes: 0,
+          hideCursorInOverviewRuler: true,
+          overviewRulerBorder: false,
+          renderValidationDecorations: 'off'
         });
 
         editorRef.current = editor;
