@@ -5,6 +5,8 @@ import scriptsReducer from './slices/scriptsSlice';
 import tabsReducer from './slices/tabsSlice';
 import templatesReducer from './slices/templatesSlice';
 import uiReducer from './slices/uiSlice';
+import adminReducer from './slices/adminSlice';
+import { api } from '../services/api';
 
 console.log('🔧 Configuring Redux Store...');
 console.log('🌍 Environment:', import.meta.env.MODE);
@@ -17,6 +19,9 @@ export const store = configureStore({
     tabs: tabsReducer,
     templates: templatesReducer,
     ui: uiReducer,
+    admin: adminReducer,
+    // RTK Query API reducer 추가
+    [api.reducerPath]: api.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
@@ -24,7 +29,9 @@ export const store = configureStore({
         ignoredActions: ['persist/PERSIST', 'persist/REHYDRATE'],
         ignoredPaths: ['auth.tokens.expiresAt'],
       },
-    }),
+    })
+    // RTK Query API middleware 추가
+    .concat(api.middleware),
   devTools: import.meta.env.MODE !== 'production',
 });
 

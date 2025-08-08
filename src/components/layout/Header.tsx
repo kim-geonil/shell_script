@@ -1,4 +1,3 @@
-import React from 'react';
 import { Button } from '../../../components/ui/button';
 import { Badge } from '../../../components/ui/badge';
 import { Avatar, AvatarFallback, AvatarImage } from '../../../components/ui/avatar';
@@ -11,15 +10,13 @@ import {
   DropdownMenuTrigger,
 } from '../../../components/ui/dropdown-menu';
 import { Bell, Search, Settings, LogOut, User, Shield, Menu } from 'lucide-react';
-import { useAuth, useAppDispatch, useSidebarCollapsed } from '../../hooks/redux';
+import { useAuth, useAppDispatch } from '../../hooks/redux';
 import { logout } from '../../store/slices/authSlice';
 import { toggleSidebar } from '../../store/slices/uiSlice';
-import { cn } from '../../utils/cn';
 
 export default function Header() {
   const { user } = useAuth();
   const dispatch = useAppDispatch();
-  const sidebarCollapsed = useSidebarCollapsed();
 
   const handleLogout = () => {
     dispatch(logout());
@@ -27,6 +24,11 @@ export default function Header() {
 
   const handleToggleSidebar = () => {
     dispatch(toggleSidebar());
+  };
+
+  const handleLogoClick = () => {
+    window.history.pushState(null, '', '/dashboard');
+    window.dispatchEvent(new PopStateEvent('popstate'));
   };
 
   return (
@@ -43,32 +45,23 @@ export default function Header() {
         </Button>
         
         {/* Logo and brand */}
-        <div className="flex items-center gap-3">
+        <button 
+          onClick={handleLogoClick}
+          className="flex items-center gap-3 hover:opacity-80 transition-opacity cursor-pointer group"
+        >
           <div className="relative">
-            <Shield className="h-8 w-8 text-primary" />
+            <Shield className="h-8 w-8 text-primary group-hover:scale-105 transition-transform" />
             <div className="absolute inset-0 h-8 w-8 text-primary animate-pulse opacity-30">
               <Shield className="h-8 w-8" />
             </div>
           </div>
           <div className="hidden sm:block">
-            <h1 className="text-xl font-bold text-glow bg-gradient-to-r from-primary to-cyan-400 bg-clip-text text-transparent">
+            <h1 className="text-xl font-bold text-glow bg-gradient-to-r from-primary to-cyan-400 bg-clip-text text-transparent group-hover:from-primary/80 group-hover:to-cyan-400/80 transition-all">
               NcuScript Automator
             </h1>
-            <p className="text-xs text-muted-foreground">보안 검증 자동화 플랫폼</p>
+            <p className="text-xs text-muted-foreground group-hover:text-muted-foreground/80 transition-colors">보안 검증 자동화 플랫폼</p>
           </div>
-        </div>
-      </div>
-
-      {/* Center - Search (hidden on mobile) */}
-      <div className="hidden md:flex flex-1 max-w-md mx-8">
-        <div className="relative w-full">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-          <input
-            type="text"
-            placeholder="스크립트, 템플릿 검색..."
-            className="w-full pl-10 pr-4 py-2 bg-card border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-200"
-          />
-        </div>
+        </button>
       </div>
 
       {/* Right side - Actions and user menu */}

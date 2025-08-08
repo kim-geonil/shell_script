@@ -24,7 +24,7 @@ const baseQuery = fetchBaseQuery({
 export const api = createApi({
   reducerPath: 'api',
   baseQuery,
-  tagTypes: ['Scripts', 'Templates', 'Tests', 'Auth', 'User'],
+  tagTypes: ['Scripts', 'Templates', 'Tests', 'Auth', 'User', 'AssetTypes', 'Products', 'InspectionItems', 'AdminStats'],
   endpoints: (builder) => ({
     // Health check
     ping: builder.query<{ message: string; timestamp: string }, void>({

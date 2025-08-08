@@ -1,5 +1,4 @@
 import React from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
 import { 
   LayoutDashboard, 
   FileText, 
@@ -12,7 +11,8 @@ import {
   Activity,
   Bookmark,
   History,
-  Shield
+  Shield,
+  UserCog
 } from 'lucide-react';
 import { Button } from '../../../components/ui/button';
 import { Badge } from '../../../components/ui/badge';
@@ -33,8 +33,7 @@ const primaryNavigation = [
     name: '스크립트',
     href: '/scripts',
     icon: FileText,
-    description: '스크립트를 생성하고 관리합니다',
-    badge: '24'
+    description: '스크립트를 생성하고 관리합니다'
   },
   {
     name: '템플릿',
@@ -71,6 +70,15 @@ const secondaryNavigation = [
   },
 ];
 
+const adminNavigation = [
+  {
+    name: '관리자 페이지',
+    href: '/admin',
+    icon: UserCog,
+    description: '시스템 관리 및 설정'
+  },
+];
+
 const quickActions = [
   {
     name: '새 스크립트',
@@ -90,11 +98,15 @@ interface NavigationItemProps {
   };
   collapsed: boolean;
   isActive: boolean;
-  navigate: (path: string) => void;
 }
 
-function NavigationItem({ item, collapsed, isActive, navigate }: NavigationItemProps) {
+function NavigationItem({ item, collapsed, isActive }: NavigationItemProps) {
   const Icon = item.icon;
+  
+  const navigate = (path: string) => {
+    window.history.pushState({}, '', path);
+    window.dispatchEvent(new Event('popstate'));
+  };
   
   const content = (
     <button
@@ -161,11 +173,9 @@ function NavigationItem({ item, collapsed, isActive, navigate }: NavigationItemP
 export default function Sidebar() {
   const dispatch = useAppDispatch();
   const collapsed = useSidebarCollapsed();
-  const navigate = useNavigate();
-  const location = useLocation();
   
   const getCurrentPath = () => {
-    const path = location.pathname;
+    const path = window.location.pathname;
     return path === '/' ? '/dashboard' : path;
   };
 
@@ -223,7 +233,6 @@ export default function Sidebar() {
                     item={item}
                     collapsed={false}
                     isActive={getCurrentPath() === item.href}
-                    navigate={navigate}
                   />
                 ))}
               </div>
@@ -246,7 +255,6 @@ export default function Sidebar() {
                   item={item}
                   collapsed={collapsed}
                   isActive={getCurrentPath() === item.href}
-                  navigate={navigate}
                 />
               ))}
             </div>
@@ -268,7 +276,27 @@ export default function Sidebar() {
                   item={item}
                   collapsed={collapsed}
                   isActive={getCurrentPath() === item.href}
-                  navigate={navigate}
+                />
+              ))}
+            </div>
+
+            <Separator className="my-4 bg-border/50" />
+
+            {/* Admin Navigation */}
+            <div className="space-y-1">
+              {!collapsed && (
+                <div className="px-3 pb-2">
+                  <div className="text-xs font-semibold text-primary uppercase tracking-wider">
+                    관리
+                  </div>
+                </div>
+              )}
+              {adminNavigation.map((item) => (
+                <NavigationItem
+                  key={item.href}
+                  item={item}
+                  collapsed={collapsed}
+                  isActive={getCurrentPath() === item.href}
                 />
               ))}
             </div>
@@ -285,7 +313,6 @@ export default function Sidebar() {
               }}
               collapsed={collapsed}
               isActive={getCurrentPath() === '/settings'}
-              navigate={navigate}
             />
           </div>
         </div>

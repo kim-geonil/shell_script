@@ -14,12 +14,17 @@ import NotFound from '../pages/NotFound'
 import SimpleDashboard from '../pages/SimpleDashboard'
 import ScriptsList from '../pages/ScriptsList'
 import ScriptDetail from '../pages/ScriptDetail'
+import ScriptNew from '../pages/ScriptNew'
+import ScriptTemplateEditor from '../pages/ScriptTemplateEditor'
 import TemplatesList from '../pages/TemplatesList'
 import TemplateDetail from '../pages/TemplateDetail'
+import PromptEditor from '../pages/PromptEditor';
 import Settings from '../pages/Settings'
 import RecentActivity from '../pages/RecentActivity'
 import Bookmarks from '../pages/Bookmarks'
 import ExecutionHistory from '../pages/ExecutionHistory'
+import TestResults from '../pages/TestResults'
+import Admin from '../pages/Admin'
 
 export default function SimpleRouter() {
   console.log('🧭 SimpleRouter rendering...');
@@ -87,6 +92,22 @@ export default function SimpleRouter() {
           </FeatureErrorBoundary>
         </RouteTransition>
       );
+    } else if (currentPath === '/scripts/new') {
+      return (
+        <RouteTransition mode="slide" direction="right" routeKey="scripts-new">
+          <FeatureErrorBoundary featureName="새 스크립트">
+            <ScriptNew />
+          </FeatureErrorBoundary>
+        </RouteTransition>
+      );
+    } else if (currentPath === '/scripts/template-editor') {
+      return (
+        <RouteTransition mode="slide" direction="right" routeKey="scripts-template-editor">
+          <FeatureErrorBoundary featureName="템플릿 에디터">
+            <ScriptTemplateEditor />
+          </FeatureErrorBoundary>
+        </RouteTransition>
+      );
     } else if (currentPath.startsWith('/scripts/')) {
       const scriptId = currentPath.split('/scripts/')[1];
       return (
@@ -149,13 +170,23 @@ export default function SimpleRouter() {
       return (
         <RouteTransition mode="slide" direction="right" routeKey="test-results">
           <FeatureErrorBoundary featureName="테스트 결과">
-            <div className="flex items-center justify-center min-h-screen bg-background">
-              <div className="text-center space-y-4 p-8 cyber-card">
-                <div className="text-6xl mb-4">🧪</div>
-                <h2 className="text-xl font-semibold text-primary">테스트 결과</h2>
-                <p className="text-muted-foreground">이 페이지는 아직 개발 중입니다.</p>
-              </div>
-            </div>
+            <TestResults />
+          </FeatureErrorBoundary>
+        </RouteTransition>
+      );
+    } else if (currentPath === '/prompt-editor') {
+      return (
+        <RouteTransition mode="slide" direction="right" routeKey="prompt-editor">
+          <FeatureErrorBoundary featureName="프롬프트 에디터">
+            <PromptEditor />
+          </FeatureErrorBoundary>
+        </RouteTransition>
+      );
+    } else if (currentPath === '/admin') {
+      return (
+        <RouteTransition mode="slide" direction="right" routeKey="admin">
+          <FeatureErrorBoundary featureName="관리자 페이지">
+            <Admin />
           </FeatureErrorBoundary>
         </RouteTransition>
       );
