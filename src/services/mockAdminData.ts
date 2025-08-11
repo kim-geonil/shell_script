@@ -4,11 +4,17 @@ import type {
   InspectionItem,
   AssetTypesResponse,
   ProductsResponse,
-  InspectionItemsResponse
+  InspectionItemsResponse,
+  CreateAssetTypeRequest,
+  UpdateAssetTypeRequest,
+  CreateProductRequest,
+  UpdateProductRequest,
+  CreateInspectionItemRequest,
+  UpdateInspectionItemRequest,
 } from '../types/admin';
 
-// 목 데이터 생성
-export const mockAssetTypes: AssetType[] = [
+// 내부 저장소 (외부로 직접 노출 금지)
+let assetTypesStore: AssetType[] = [
   {
     id: '1',
     name: 'OS',
@@ -32,7 +38,7 @@ export const mockAssetTypes: AssetType[] = [
   }
 ];
 
-export const mockProducts: Product[] = [
+let productsStore: Product[] = [
   {
     id: '1',
     name: 'Windows',
@@ -95,7 +101,7 @@ export const mockProducts: Product[] = [
   }
 ];
 
-export const mockInspectionItems: InspectionItem[] = [
+let inspectionItemsStore: InspectionItem[] = [
   {
     id: '1',
     name: '패스워드 정책 확인',
@@ -215,90 +221,228 @@ nginx -T | grep -A 5 "location"`,
   }
 ];
 
-// 목 응답 생성 함수들
-export const getMockAssetTypesResponse = (): AssetTypesResponse => ({
-  assetTypes: mockAssetTypes,
-  total: mockAssetTypes.length
-});
+// 유틸: 깊은 복제 (RTK Query의 freeze로부터 내부 저장소 보호)
+function deepClone<T>(data: T): T {
+  return JSON.parse(JSON.stringify(data));
+}
 
-export const getMockProductsResponse = (filter?: any): ProductsResponse => {
-  let filteredProducts = [...mockProducts];
-  
+// 조회(읽기) 함수들 - 항상 복제본 반환
+export function listAssetTypesResponse(): AssetTypesResponse {
+  return { assetTypes: deepClone(assetTypesStore), total: assetTypesStore.length };
+}
+
+export function listProductsResponse(filter?: { assetTypeId?: string; search?: string }): ProductsResponse {
+  let filtered = productsStore;
   if (filter?.assetTypeId) {
-    filteredProducts = filteredProducts.filter(p => p.assetTypeId === filter.assetTypeId);
+    filtered = filtered.filter(p => p.assetTypeId === filter.assetTypeId);
   }
-  
   if (filter?.search) {
-    filteredProducts = filteredProducts.filter(p => 
-      p.name.toLowerCase().includes(filter.search.toLowerCase())
-    );
+    const q = filter.search.toLowerCase();
+    filtered = filtered.filter(p => p.name.toLowerCase().includes(q));
   }
-  
-  return {
-    products: filteredProducts,
-    total: filteredProducts.length
-  };
-};
+  return { products: deepClone(filtered), total: filtered.length };
+}
 
-export const getMockInspectionItemsResponse = (filter?: any): InspectionItemsResponse => {
-  let filteredItems = [...mockInspectionItems];
-  
+export function listInspectionItemsResponse(filter?: { assetTypeId?: string; severity?: string; isActive?: boolean; search?: string }): InspectionItemsResponse {
+  let filtered = inspectionItemsStore;
   if (filter?.assetTypeId) {
-    filteredItems = filteredItems.filter(item => item.assetTypeId === filter.assetTypeId);
+    filtered = filtered.filter(i => i.assetTypeId === filter.assetTypeId);
   }
-  
   if (filter?.severity) {
-    filteredItems = filteredItems.filter(item => item.severity === filter.severity);
+    filtered = filtered.filter(i => i.severity === filter.severity);
   }
-  
   if (filter?.isActive !== undefined) {
-    filteredItems = filteredItems.filter(item => item.isActive === filter.isActive);
+    filtered = filtered.filter(i => i.isActive === filter.isActive);
   }
-  
   if (filter?.search) {
-    filteredItems = filteredItems.filter(item => 
-      item.name.toLowerCase().includes(filter.search.toLowerCase())
-    );
+    const q = filter.search.toLowerCase();
+    filtered = filtered.filter(i => i.name.toLowerCase().includes(q));
   }
-  
-  return {
-    inspectionItems: filteredItems,
-    total: filteredItems.length
-  };
-};
+  return { inspectionItems: deepClone(filtered), total: filtered.length };
+}
 
-export const getMockAdminDashboardStats = () => ({
-  assetTypesCount: mockAssetTypes.length,
-  productsCount: mockProducts.length,
-  inspectionItemsCount: mockInspectionItems.length,
-  activeInspectionItemsCount: mockInspectionItems.filter(item => item.isActive).length,
-  recentActivities: [
-    {
-      id: '1',
-      type: 'inspection-item' as const,
-      action: 'created' as const,
-      entityName: '패스워드 정책 확인',
-      timestamp: '2024-01-15T10:30:00Z',
-      userId: 'admin',
-      userName: '관리자'
-    },
-    {
-      id: '2',
-      type: 'product' as const,
-      action: 'created' as const,
-      entityName: 'MySQL',
-      timestamp: '2024-01-15T10:15:00Z',
-      userId: 'admin',
-      userName: '관리자'
-    },
-    {
-      id: '3',
-      type: 'asset-type' as const,
-      action: 'created' as const,
-      entityName: 'DBMS',
-      timestamp: '2024-01-15T09:45:00Z',
-      userId: 'admin',
-      userName: '관리자'
-    }
-  ]
-});
+export function listProductsByAssetType(assetTypeId: string): Product[] {
+  return deepClone(productsStore.filter(p => p.assetTypeId === assetTypeId));
+}
+
+// 변경(쓰기) 함수들 - 내부 저장소만 변경, 반환은 복제본
+export function createAssetType(data: CreateAssetTypeRequest): AssetType {
+  const now = new Date().toISOString();
+  const created: AssetType = { id: String(assetTypesStore.length + 1), name: data.name, description: data.description, createdAt: now, updatedAt: now };
+  assetTypesStore = [...assetTypesStore, created];
+  return deepClone(created);
+}
+
+export function updateAssetType(id: string, data: UpdateAssetTypeRequest): AssetType | undefined {
+  const idx = assetTypesStore.findIndex(a => a.id === id);
+  if (idx === -1) return undefined;
+  const updated: AssetType = { ...assetTypesStore[idx], name: data.name, description: data.description, updatedAt: new Date().toISOString() };
+  assetTypesStore = [...assetTypesStore.slice(0, idx), updated, ...assetTypesStore.slice(idx + 1)];
+  return deepClone(updated);
+}
+
+export function deleteAssetType(id: string): boolean {
+  const exists = assetTypesStore.some(a => a.id === id);
+  if (!exists) return false;
+  // 관련 데이터 정리
+  productsStore = productsStore.filter(p => p.assetTypeId !== id);
+  inspectionItemsStore = inspectionItemsStore.filter(i => i.assetTypeId !== id);
+  assetTypesStore = assetTypesStore.filter(a => a.id !== id);
+  return true;
+}
+
+export function createProduct(data: CreateProductRequest): Product | undefined {
+  const assetType = assetTypesStore.find(a => a.id === data.assetTypeId);
+  if (!assetType) return undefined;
+  const now = new Date().toISOString();
+  const created: Product = {
+    id: String(productsStore.length + 1),
+    name: data.name,
+    assetTypeId: data.assetTypeId,
+    assetTypeName: assetType.name,
+    version: data.version,
+    description: data.description,
+    createdAt: now,
+    updatedAt: now,
+  };
+  productsStore = [...productsStore, created];
+  return deepClone(created);
+}
+
+export function updateProduct(id: string, data: UpdateProductRequest): Product | undefined {
+  const idx = productsStore.findIndex(p => p.id === id);
+  if (idx === -1) return undefined;
+  const assetType = assetTypesStore.find(a => a.id === data.assetTypeId);
+  if (!assetType) return undefined;
+  const updated: Product = {
+    ...productsStore[idx],
+    name: data.name,
+    assetTypeId: data.assetTypeId,
+    assetTypeName: assetType.name,
+    version: data.version,
+    description: data.description,
+    updatedAt: new Date().toISOString(),
+  };
+  productsStore = [...productsStore.slice(0, idx), updated, ...productsStore.slice(idx + 1)];
+  return deepClone(updated);
+}
+
+export function deleteProduct(id: string): boolean {
+  const idx = productsStore.findIndex(p => p.id === id);
+  if (idx === -1) return false;
+  const productName = productsStore[idx].name;
+  // 점검항목에서 제품 참조 제거
+  inspectionItemsStore = inspectionItemsStore.map(i => ({
+    ...i,
+    productIds: i.productIds?.filter(pid => pid !== id),
+    productNames: i.productNames?.filter(n => n !== productName),
+  }));
+  productsStore = [...productsStore.slice(0, idx), ...productsStore.slice(idx + 1)];
+  return true;
+}
+
+export function createInspectionItem(data: CreateInspectionItemRequest): InspectionItem | undefined {
+  const assetType = assetTypesStore.find(a => a.id === data.assetTypeId);
+  if (!assetType) return undefined;
+  const productNames = (data.productIds || [])
+    .map(pid => productsStore.find(p => p.id === pid)?.name)
+    .filter(Boolean) as string[];
+  const now = new Date().toISOString();
+  const created: InspectionItem = {
+    id: String(inspectionItemsStore.length + 1),
+    name: data.name,
+    description: data.description,
+    assetTypeId: data.assetTypeId,
+    assetTypeName: assetType.name,
+    productIds: data.productIds,
+    productNames,
+    script: data.script,
+    category: data.category,
+    severity: data.severity,
+    isActive: data.isActive ?? true,
+    createdAt: now,
+    updatedAt: now,
+  };
+  inspectionItemsStore = [...inspectionItemsStore, created];
+  return deepClone(created);
+}
+
+export function updateInspectionItem(id: string, data: UpdateInspectionItemRequest): InspectionItem | undefined {
+  const idx = inspectionItemsStore.findIndex(i => i.id === id);
+  if (idx === -1) return undefined;
+  const assetType = assetTypesStore.find(a => a.id === data.assetTypeId);
+  if (!assetType) return undefined;
+  const productNames = (data.productIds || [])
+    .map(pid => productsStore.find(p => p.id === pid)?.name)
+    .filter(Boolean) as string[];
+  const updated: InspectionItem = {
+    ...inspectionItemsStore[idx],
+    name: data.name,
+    description: data.description,
+    assetTypeId: data.assetTypeId,
+    assetTypeName: assetType.name,
+    productIds: data.productIds,
+    productNames,
+    script: data.script,
+    category: data.category,
+    severity: data.severity,
+    isActive: data.isActive ?? inspectionItemsStore[idx].isActive,
+    updatedAt: new Date().toISOString(),
+  };
+  inspectionItemsStore = [...inspectionItemsStore.slice(0, idx), updated, ...inspectionItemsStore.slice(idx + 1)];
+  return deepClone(updated);
+}
+
+export function deleteInspectionItem(id: string): boolean {
+  const exists = inspectionItemsStore.some(i => i.id === id);
+  if (!exists) return false;
+  inspectionItemsStore = inspectionItemsStore.filter(i => i.id !== id);
+  return true;
+}
+
+export function toggleInspectionItemStatus(id: string, isActive: boolean): InspectionItem | undefined {
+  const idx = inspectionItemsStore.findIndex(i => i.id === id);
+  if (idx === -1) return undefined;
+  const updated: InspectionItem = { ...inspectionItemsStore[idx], isActive, updatedAt: new Date().toISOString() };
+  inspectionItemsStore = [...inspectionItemsStore.slice(0, idx), updated, ...inspectionItemsStore.slice(idx + 1)];
+  return deepClone(updated);
+}
+
+export function getAdminDashboardStats() {
+  return {
+    assetTypesCount: assetTypesStore.length,
+    productsCount: productsStore.length,
+    inspectionItemsCount: inspectionItemsStore.length,
+    activeInspectionItemsCount: inspectionItemsStore.filter(i => i.isActive).length,
+    recentActivities: [
+      {
+        id: '1',
+        type: 'inspection-item' as const,
+        action: 'created' as const,
+        entityName: '패스워드 정책 확인',
+        timestamp: '2024-01-15T10:30:00Z',
+        userId: 'admin',
+        userName: '관리자',
+      },
+      {
+        id: '2',
+        type: 'product' as const,
+        action: 'created' as const,
+        entityName: 'MySQL',
+        timestamp: '2024-01-15T10:15:00Z',
+        userId: 'admin',
+        userName: '관리자',
+      },
+      {
+        id: '3',
+        type: 'asset-type' as const,
+        action: 'created' as const,
+        entityName: 'DBMS',
+        timestamp: '2024-01-15T09:45:00Z',
+        userId: 'admin',
+        userName: '관리자',
+      },
+    ],
+  };
+}
+

@@ -1,12 +1,20 @@
 import { api } from './api';
 import {
-  getMockAssetTypesResponse,
-  getMockProductsResponse,
-  getMockInspectionItemsResponse,
-  getMockAdminDashboardStats,
-  mockAssetTypes,
-  mockProducts,
-  mockInspectionItems
+  listAssetTypesResponse,
+  listProductsResponse,
+  listInspectionItemsResponse,
+  getAdminDashboardStats,
+  listProductsByAssetType,
+  createAssetType as createAssetTypeStore,
+  updateAssetType as updateAssetTypeStore,
+  deleteAssetType as deleteAssetTypeStore,
+  createProduct as createProductStore,
+  updateProduct as updateProductStore,
+  deleteProduct as deleteProductStore,
+  createInspectionItem as createInspectionItemStore,
+  updateInspectionItem as updateInspectionItemStore,
+  deleteInspectionItem as deleteInspectionItemStore,
+  toggleInspectionItemStatus as toggleInspectionItemStatusStore,
 } from './mockAdminData';
 import type {
   AssetType,
@@ -33,7 +41,7 @@ export const adminApi = api.injectEndpoints({
       queryFn: async () => {
         // 목 데이터 사용 (실제 백엔드 대신)
         await new Promise(resolve => setTimeout(resolve, 500)); // 로딩 시뮬레이션
-        return { data: getMockAssetTypesResponse() };
+        return { data: listAssetTypesResponse() };
       },
       providesTags: ['AssetTypes'],
     }),
@@ -47,15 +55,9 @@ export const adminApi = api.injectEndpoints({
       queryFn: async (assetType) => {
         // 목 데이터 사용 (실제 백엔드 대신)
         await new Promise(resolve => setTimeout(resolve, 500)); // 로딩 시뮬레이션
-        const newAssetType: AssetType = {
-          id: (mockAssetTypes.length + 1).toString(),
-          name: assetType.name,
-          description: assetType.description,
-          createdAt: new Date().toISOString(),
-          updatedAt: new Date().toISOString()
-        };
-        mockAssetTypes.push(newAssetType);
-        return { data: newAssetType };
+        const created = createAssetTypeStore(assetType);
+        if (!created) return { error: { status: 400, data: 'Create failed' } } as any;
+        return { data: created };
       },
       invalidatesTags: ['AssetTypes'],
     }),
@@ -64,18 +66,9 @@ export const adminApi = api.injectEndpoints({
       queryFn: async ({ id, ...assetType }) => {
         // 목 데이터 사용 (실제 백엔드 대신)
         await new Promise(resolve => setTimeout(resolve, 500)); // 로딩 시뮬레이션
-        const index = mockAssetTypes.findIndex(item => item.id === id);
-        if (index === -1) {
-          return { error: { status: 404, data: 'Asset type not found' } };
-        }
-        const updatedAssetType: AssetType = {
-          ...mockAssetTypes[index],
-          name: assetType.name,
-          description: assetType.description,
-          updatedAt: new Date().toISOString()
-        };
-        mockAssetTypes[index] = updatedAssetType;
-        return { data: updatedAssetType };
+        const updated = updateAssetTypeStore(id, { id, ...assetType });
+        if (!updated) return { error: { status: 404, data: 'Asset type not found' } } as any;
+        return { data: updated };
       },
       invalidatesTags: (result, error, { id }) => [
         'AssetTypes',
@@ -87,25 +80,8 @@ export const adminApi = api.injectEndpoints({
       queryFn: async (id) => {
         // 목 데이터 사용 (실제 백엔드 대신)
         await new Promise(resolve => setTimeout(resolve, 500)); // 로딩 시뮬레이션
-        const index = mockAssetTypes.findIndex(item => item.id === id);
-        if (index === -1) {
-          return { error: { status: 404, data: 'Asset type not found' } };
-        }
-        
-        // 관련 제품과 점검항목도 삭제
-        const relatedProducts = mockProducts.filter(p => p.assetTypeId === id);
-        relatedProducts.forEach(product => {
-          const productIndex = mockProducts.findIndex(p => p.id === product.id);
-          if (productIndex > -1) mockProducts.splice(productIndex, 1);
-        });
-        
-        const relatedInspectionItems = mockInspectionItems.filter(item => item.assetTypeId === id);
-        relatedInspectionItems.forEach(item => {
-          const itemIndex = mockInspectionItems.findIndex(i => i.id === item.id);
-          if (itemIndex > -1) mockInspectionItems.splice(itemIndex, 1);
-        });
-        
-        mockAssetTypes.splice(index, 1);
+        const ok = deleteAssetTypeStore(id);
+        if (!ok) return { error: { status: 404, data: 'Asset type not found' } } as any;
         return { data: undefined };
       },
       invalidatesTags: (result, error, id) => [
@@ -121,7 +97,7 @@ export const adminApi = api.injectEndpoints({
       queryFn: async (filter) => {
         // 목 데이터 사용 (실제 백엔드 대신)
         await new Promise(resolve => setTimeout(resolve, 300)); // 로딩 시뮬레이션
-        return { data: getMockProductsResponse(filter) };
+        return { data: listProductsResponse(filter || {}) };
       },
       providesTags: ['Products'],
     }),
@@ -135,8 +111,7 @@ export const adminApi = api.injectEndpoints({
       queryFn: async (assetTypeId) => {
         // 목 데이터 사용 (실제 백엔드 대신)
         await new Promise(resolve => setTimeout(resolve, 200)); // 로딩 시뮬레이션
-        const filteredProducts = mockProducts.filter(p => p.assetTypeId === assetTypeId);
-        return { data: filteredProducts };
+        return { data: listProductsByAssetType(assetTypeId) };
       },
       providesTags: ['Products'],
     }),
@@ -145,23 +120,9 @@ export const adminApi = api.injectEndpoints({
       queryFn: async (product) => {
         // 목 데이터 사용 (실제 백엔드 대신)
         await new Promise(resolve => setTimeout(resolve, 500)); // 로딩 시뮬레이션
-        const assetType = mockAssetTypes.find(at => at.id === product.assetTypeId);
-        if (!assetType) {
-          return { error: { status: 400, data: 'Asset type not found' } };
-        }
-        
-        const newProduct: Product = {
-          id: (mockProducts.length + 1).toString(),
-          name: product.name,
-          assetTypeId: product.assetTypeId,
-          assetTypeName: assetType.name,
-          version: product.version,
-          description: product.description,
-          createdAt: new Date().toISOString(),
-          updatedAt: new Date().toISOString()
-        };
-        mockProducts.push(newProduct);
-        return { data: newProduct };
+        const created = createProductStore(product);
+        if (!created) return { error: { status: 400, data: 'Asset type not found' } } as any;
+        return { data: created };
       },
       invalidatesTags: ['Products'],
     }),
@@ -170,27 +131,9 @@ export const adminApi = api.injectEndpoints({
       queryFn: async ({ id, ...product }) => {
         // 목 데이터 사용 (실제 백엔드 대신)
         await new Promise(resolve => setTimeout(resolve, 500)); // 로딩 시뮬레이션
-        const index = mockProducts.findIndex(item => item.id === id);
-        if (index === -1) {
-          return { error: { status: 404, data: 'Product not found' } };
-        }
-        
-        const assetType = mockAssetTypes.find(at => at.id === product.assetTypeId);
-        if (!assetType) {
-          return { error: { status: 400, data: 'Asset type not found' } };
-        }
-        
-        const updatedProduct: Product = {
-          ...mockProducts[index],
-          name: product.name,
-          assetTypeId: product.assetTypeId,
-          assetTypeName: assetType.name,
-          version: product.version,
-          description: product.description,
-          updatedAt: new Date().toISOString()
-        };
-        mockProducts[index] = updatedProduct;
-        return { data: updatedProduct };
+        const updated = updateProductStore(id, { id, ...product });
+        if (!updated) return { error: { status: 404, data: 'Product not found' } } as any;
+        return { data: updated };
       },
       invalidatesTags: (result, error, { id }) => [
         'Products',
@@ -202,22 +145,8 @@ export const adminApi = api.injectEndpoints({
       queryFn: async (id) => {
         // 목 데이터 사용 (실제 백엔드 대신)
         await new Promise(resolve => setTimeout(resolve, 500)); // 로딩 시뮬레이션
-        const index = mockProducts.findIndex(item => item.id === id);
-        if (index === -1) {
-          return { error: { status: 404, data: 'Product not found' } };
-        }
-        
-        // 관련 점검항목에서 이 제품 ID 제거
-        mockInspectionItems.forEach(item => {
-          if (item.productIds?.includes(id)) {
-            item.productIds = item.productIds.filter(pid => pid !== id);
-            item.productNames = item.productNames?.filter(name => 
-              name !== mockProducts[index].name
-            );
-          }
-        });
-        
-        mockProducts.splice(index, 1);
+        const ok = deleteProductStore(id);
+        if (!ok) return { error: { status: 404, data: 'Product not found' } } as any;
         return { data: undefined };
       },
       invalidatesTags: (result, error, id) => [
@@ -245,7 +174,7 @@ export const adminApi = api.injectEndpoints({
       queryFn: async (filter) => {
         // 목 데이터 사용 (실제 백엔드 대신)
         await new Promise(resolve => setTimeout(resolve, 400)); // 로딩 시뮬레이션
-        return { data: getMockInspectionItemsResponse(filter) };
+        return { data: listInspectionItemsResponse(filter || {}) };
       },
       providesTags: ['InspectionItems'],
     }),
@@ -269,34 +198,9 @@ export const adminApi = api.injectEndpoints({
       queryFn: async (inspectionItem) => {
         // 목 데이터 사용 (실제 백엔드 대신)
         await new Promise(resolve => setTimeout(resolve, 500)); // 로딩 시뮬레이션
-        const assetType = mockAssetTypes.find(at => at.id === inspectionItem.assetTypeId);
-        if (!assetType) {
-          return { error: { status: 400, data: 'Asset type not found' } };
-        }
-        
-        // 선택된 제품들의 이름 가져오기
-        const productNames = inspectionItem.productIds?.map(pid => {
-          const product = mockProducts.find(p => p.id === pid);
-          return product?.name;
-        }).filter(Boolean) as string[];
-        
-        const newInspectionItem: InspectionItem = {
-          id: (mockInspectionItems.length + 1).toString(),
-          name: inspectionItem.name,
-          description: inspectionItem.description,
-          assetTypeId: inspectionItem.assetTypeId,
-          assetTypeName: assetType.name,
-          productIds: inspectionItem.productIds,
-          productNames: productNames,
-          script: inspectionItem.script,
-          category: inspectionItem.category,
-          severity: inspectionItem.severity,
-          isActive: inspectionItem.isActive ?? true,
-          createdAt: new Date().toISOString(),
-          updatedAt: new Date().toISOString()
-        };
-        mockInspectionItems.push(newInspectionItem);
-        return { data: newInspectionItem };
+        const created = createInspectionItemStore(inspectionItem);
+        if (!created) return { error: { status: 400, data: 'Asset type not found' } } as any;
+        return { data: created };
       },
       invalidatesTags: ['InspectionItems'],
     }),
@@ -305,38 +209,9 @@ export const adminApi = api.injectEndpoints({
       queryFn: async ({ id, ...inspectionItem }) => {
         // 목 데이터 사용 (실제 백엔드 대신)
         await new Promise(resolve => setTimeout(resolve, 500)); // 로딩 시뮬레이션
-        const index = mockInspectionItems.findIndex(item => item.id === id);
-        if (index === -1) {
-          return { error: { status: 404, data: 'Inspection item not found' } };
-        }
-        
-        const assetType = mockAssetTypes.find(at => at.id === inspectionItem.assetTypeId);
-        if (!assetType) {
-          return { error: { status: 400, data: 'Asset type not found' } };
-        }
-        
-        // 선택된 제품들의 이름 가져오기
-        const productNames = inspectionItem.productIds?.map(pid => {
-          const product = mockProducts.find(p => p.id === pid);
-          return product?.name;
-        }).filter(Boolean) as string[];
-        
-        const updatedInspectionItem: InspectionItem = {
-          ...mockInspectionItems[index],
-          name: inspectionItem.name,
-          description: inspectionItem.description,
-          assetTypeId: inspectionItem.assetTypeId,
-          assetTypeName: assetType.name,
-          productIds: inspectionItem.productIds,
-          productNames: productNames,
-          script: inspectionItem.script,
-          category: inspectionItem.category,
-          severity: inspectionItem.severity,
-          isActive: inspectionItem.isActive,
-          updatedAt: new Date().toISOString()
-        };
-        mockInspectionItems[index] = updatedInspectionItem;
-        return { data: updatedInspectionItem };
+        const updated = updateInspectionItemStore(id, { id, ...inspectionItem });
+        if (!updated) return { error: { status: 404, data: 'Inspection item not found' } } as any;
+        return { data: updated };
       },
       invalidatesTags: (result, error, { id }) => [
         'InspectionItems',
@@ -348,12 +223,8 @@ export const adminApi = api.injectEndpoints({
       queryFn: async (id) => {
         // 목 데이터 사용 (실제 백엔드 대신)
         await new Promise(resolve => setTimeout(resolve, 500)); // 로딩 시뮬레이션
-        const index = mockInspectionItems.findIndex(item => item.id === id);
-        if (index === -1) {
-          return { error: { status: 404, data: 'Inspection item not found' } };
-        }
-        
-        mockInspectionItems.splice(index, 1);
+        const ok = deleteInspectionItemStore(id);
+        if (!ok) return { error: { status: 404, data: 'Inspection item not found' } } as any;
         return { data: undefined };
       },
       invalidatesTags: (result, error, id) => [
@@ -377,18 +248,9 @@ export const adminApi = api.injectEndpoints({
       queryFn: async ({ id, isActive }) => {
         // 목 데이터 사용 (실제 백엔드 대신)
         await new Promise(resolve => setTimeout(resolve, 300)); // 로딩 시뮬레이션
-        const index = mockInspectionItems.findIndex(item => item.id === id);
-        if (index === -1) {
-          return { error: { status: 404, data: 'Inspection item not found' } };
-        }
-        
-        const updatedInspectionItem: InspectionItem = {
-          ...mockInspectionItems[index],
-          isActive: isActive,
-          updatedAt: new Date().toISOString()
-        };
-        mockInspectionItems[index] = updatedInspectionItem;
-        return { data: updatedInspectionItem };
+        const updated = toggleInspectionItemStatusStore(id, isActive);
+        if (!updated) return { error: { status: 404, data: 'Inspection item not found' } } as any;
+        return { data: updated };
       },
       invalidatesTags: (result, error, { id }) => [
         'InspectionItems',
@@ -415,7 +277,7 @@ export const adminApi = api.injectEndpoints({
       queryFn: async () => {
         // 목 데이터 사용 (실제 백엔드 대신)
         await new Promise(resolve => setTimeout(resolve, 300)); // 로딩 시뮬레이션
-        return { data: getMockAdminDashboardStats() };
+        return { data: getAdminDashboardStats() };
       },
       providesTags: ['AdminStats'],
     }),
