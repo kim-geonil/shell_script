@@ -14,7 +14,7 @@ import {
   RefreshCw
 } from 'lucide-react';
 import { cn } from '../utils/cn';
-import { useGetAdminDashboardStatsQuery } from '../services/adminApi';
+import { useGetAdminDashboardStatsQuery, seedInspectionTemplates } from '../services/adminApi';
 import AssetTypeManager from '../components/admin/AssetTypeManager';
 import ProductManager from '../components/admin/ProductManager';
 import InspectionItemManager from '../components/admin/InspectionItemManager';
@@ -31,6 +31,11 @@ export default function Admin() {
 
   const handleRefreshStats = () => {
     refetchStats();
+  };
+
+  const handleSeedTemplates = async () => {
+    await seedInspectionTemplates();
+    await refetchStats();
   };
 
   return (
@@ -57,6 +62,7 @@ export default function Admin() {
           <RefreshCw className={cn("h-4 w-4", isStatsLoading && "animate-spin")} />
           새로고침
         </Button>
+        <Button onClick={handleSeedTemplates} className="ml-2">템플릿 점검항목 세팅</Button>
       </div>
 
       {/* 통계 카드 */}

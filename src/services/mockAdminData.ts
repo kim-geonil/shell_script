@@ -101,125 +101,91 @@ let productsStore: Product[] = [
   }
 ];
 
-let inspectionItemsStore: InspectionItem[] = [
-  {
-    id: '1',
-    name: '패스워드 정책 확인',
-    description: '시스템 패스워드 정책이 보안 요구사항을 만족하는지 확인',
-    assetTypeId: '1',
-    assetTypeName: 'OS',
-    productIds: ['1', '2'],
-    productNames: ['Windows', 'Linux'],
-    script: `#!/bin/bash
-# 패스워드 정책 확인 스크립트
-if [ -f /etc/login.defs ]; then
-    echo "패스워드 최소 길이:"
-    grep PASS_MIN_LEN /etc/login.defs
-    echo "패스워드 최대 사용기간:"
-    grep PASS_MAX_DAYS /etc/login.defs
-fi`,
-    category: '보안',
-    severity: 'high',
-    isActive: true,
-    createdAt: '2024-01-15T09:00:00Z',
-    updatedAt: '2024-01-15T09:00:00Z'
-  },
-  {
-    id: '2',
-    name: '방화벽 상태 확인',
-    description: '시스템 방화벽이 활성화되어 있는지 확인',
-    assetTypeId: '1',
-    assetTypeName: 'OS',
-    script: `#!/bin/bash
-# 방화벽 상태 확인
-if command -v ufw &> /dev/null; then
-    echo "UFW 상태:"
-    ufw status
-elif command -v firewall-cmd &> /dev/null; then
-    echo "firewalld 상태:"
-    firewall-cmd --state
-fi`,
-    category: '보안',
-    severity: 'critical',
-    isActive: true,
-    createdAt: '2024-01-15T09:00:00Z',
-    updatedAt: '2024-01-15T09:00:00Z'
-  },
-  {
-    id: '3',
-    name: 'MySQL 보안 설정 확인',
-    description: 'MySQL 데이터베이스의 보안 설정을 확인',
-    assetTypeId: '2',
-    assetTypeName: 'DBMS',
-    productIds: ['3'],
-    productNames: ['MySQL'],
-    script: `-- MySQL 보안 설정 확인
-SHOW VARIABLES LIKE 'validate_password%';
-SELECT User, Host, authentication_string FROM mysql.user WHERE User = 'root';
-SHOW VARIABLES LIKE 'log_error';`,
-    category: '보안',
-    severity: 'high',
-    isActive: true,
-    createdAt: '2024-01-15T09:00:00Z',
-    updatedAt: '2024-01-15T09:00:00Z'
-  },
-  {
-    id: '4',
-    name: 'MongoDB 인증 설정 확인',
-    description: 'MongoDB의 인증 및 권한 설정을 확인',
-    assetTypeId: '2',
-    assetTypeName: 'DBMS',
-    productIds: ['4'],
-    productNames: ['MongoDB'],
-    script: `// MongoDB 인증 설정 확인
-db.runCommand({connectionStatus : 1})
-db.adminCommand("listCollections")
-db.runCommand({usersInfo: 1})`,
-    category: '보안',
-    severity: 'medium',
-    isActive: true,
-    createdAt: '2024-01-15T09:00:00Z',
-    updatedAt: '2024-01-15T09:00:00Z'
-  },
-  {
-    id: '5',
-    name: 'Tomcat 보안 헤더 확인',
-    description: 'Apache Tomcat의 보안 헤더 설정을 확인',
-    assetTypeId: '3',
-    assetTypeName: 'WEB/WAS',
-    productIds: ['5'],
-    productNames: ['Apache Tomcat'],
-    script: `#!/bin/bash
-# Tomcat 보안 헤더 확인
-curl -I http://localhost:8080 | grep -E "(X-Frame-Options|X-Content-Type-Options|X-XSS-Protection)"
-# web.xml 보안 설정 확인
-grep -A 10 -B 5 "security-constraint" /opt/tomcat/webapps/*/WEB-INF/web.xml`,
-    category: '보안',
-    severity: 'medium',
-    isActive: true,
-    createdAt: '2024-01-15T09:00:00Z',
-    updatedAt: '2024-01-15T09:00:00Z'
-  },
-  {
-    id: '6',
-    name: 'Nginx 보안 설정 확인',
-    description: 'Nginx 웹 서버의 보안 설정을 확인',
-    assetTypeId: '3',
-    assetTypeName: 'WEB/WAS',
-    productIds: ['6'],
-    productNames: ['Nginx'],
-    script: `#!/bin/bash
-# Nginx 보안 설정 확인
-nginx -T | grep -E "(server_tokens|add_header|ssl_)"
-# 접근 제한 확인
-nginx -T | grep -A 5 "location"`,
-    category: '보안',
-    severity: 'low',
-    isActive: false,
-    createdAt: '2024-01-15T09:00:00Z',
-    updatedAt: '2024-01-15T09:00:00Z'
-  }
-];
+// 초기 템플릿 기반 점검항목 생성 도우미
+function buildTemplateInspectionItems(): InspectionItem[] {
+  const ids = productsStore.map(p => p.id);
+  const names = productsStore.map(p => p.name);
+  const now = new Date().toISOString();
+  return [
+    {
+      id: '1',
+      name: '시스템 계정 안전 쉘 사용 점검 (U-102)',
+      description: '시스템/서비스 계정이 /bin/false, /sbin/nologin 등 대화형 로그인 불가 쉘을 사용하는지 확인',
+      assetTypeId: '1',
+      assetTypeName: 'OS',
+      productIds: ids,
+      productNames: names,
+      script: '# Refer: template/u102_script_analysis.md - getent passwd 로 쉘 필드 확인',
+      category: '보안',
+      severity: 'high',
+      isActive: true,
+      createdAt: now,
+      updatedAt: now,
+    },
+    {
+      id: '2',
+      name: '패스워드 maxrepeat 설정 점검 (U-103)',
+      description: 'maxrepeat 값이 1 또는 2로 설정되어 있는지 확인',
+      assetTypeId: '1',
+      assetTypeName: 'OS',
+      productIds: ids,
+      productNames: names,
+      script: '# Refer: template/u103_script_analysis.md - pwquality/PAM에서 maxrepeat 추출',
+      category: '보안',
+      severity: 'medium',
+      isActive: true,
+      createdAt: now,
+      updatedAt: now,
+    },
+    {
+      id: '3',
+      name: '패스워드 복잡성 credit -1 설정 점검 (U-106)',
+      description: 'l/u/d/o credit 값이 모두 -1인지 확인',
+      assetTypeId: '1',
+      assetTypeName: 'OS',
+      productIds: ids,
+      productNames: names,
+      script: '# Refer: template/u106_script_analysis.md - pwquality/PAM credit 값 확인',
+      category: '보안',
+      severity: 'high',
+      isActive: true,
+      createdAt: now,
+      updatedAt: now,
+    },
+    {
+      id: '4',
+      name: '패스워드 복잡성 정책 검증 (U-107)',
+      description: '4가지 문자 종류 강제 여부 검증',
+      assetTypeId: '1',
+      assetTypeName: 'OS',
+      productIds: ids,
+      productNames: names,
+      script: '# Refer: template/u107_script_analysis.md - PAM 라인에서 -1 정책 확인',
+      category: '보안',
+      severity: 'high',
+      isActive: true,
+      createdAt: now,
+      updatedAt: now,
+    },
+    {
+      id: '5',
+      name: '로그인 실패 잠금 정책 점검 (U-301)',
+      description: 'deny=4, unlock_time=120 설정 확인',
+      assetTypeId: '1',
+      assetTypeName: 'OS',
+      productIds: ids,
+      productNames: names,
+      script: '# Refer: template/u301_script_analysis.md - PAM faillock/tally2 설정 확인',
+      category: '보안',
+      severity: 'high',
+      isActive: true,
+      createdAt: now,
+      updatedAt: now,
+    },
+  ];
+}
+
+let inspectionItemsStore: InspectionItem[] = buildTemplateInspectionItems();
 
 // 유틸: 깊은 복제 (RTK Query의 freeze로부터 내부 저장소 보호)
 function deepClone<T>(data: T): T {
@@ -406,6 +372,12 @@ export function toggleInspectionItemStatus(id: string, isActive: boolean): Inspe
   const updated: InspectionItem = { ...inspectionItemsStore[idx], isActive, updatedAt: new Date().toISOString() };
   inspectionItemsStore = [...inspectionItemsStore.slice(0, idx), updated, ...inspectionItemsStore.slice(idx + 1)];
   return deepClone(updated);
+}
+
+// 기존 점검항목을 템플릿 기반으로 재설정 (전체 삭제 후 재세팅)
+export function resetInspectionItemsToTemplates(): InspectionItem[] {
+  inspectionItemsStore = buildTemplateInspectionItems();
+  return deepClone(inspectionItemsStore);
 }
 
 export function getAdminDashboardStats() {

@@ -15,6 +15,7 @@ import {
   updateInspectionItem as updateInspectionItemStore,
   deleteInspectionItem as deleteInspectionItemStore,
   toggleInspectionItemStatus as toggleInspectionItemStatusStore,
+  resetInspectionItemsToTemplates,
 } from './mockAdminData';
 import type {
   AssetType,
@@ -317,6 +318,11 @@ export const {
   // 통계
   useGetAdminDashboardStatsQuery,
 } = adminApi;
+
+// 유틸: 템플릿 재설정 액션 제공 (임시)
+export async function seedInspectionTemplates() {
+  resetInspectionItemsToTemplates();
+}
 
 // RTK Query에서 태그 타입 업데이트를 위해 기존 api.ts에 추가해야 할 태그들
 declare module './api' {
